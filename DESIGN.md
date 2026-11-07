@@ -38,10 +38,16 @@ Neutros puros, sin tinte (negro y blanco de la marca) y un solo acento, el rojo 
 - **Kits:** al elegir un kit, sus piezas se encienden una a una (70 ms entre piezas) y, si incluye elevación, el vehículo sube. Es movimiento que explica qué añade cada kit.
 - **Instalación:** el logo se revela con un recorte vertical; las líneas de los pasos se dibujan.
 - **Respuesta a acciones:** pulsar (`scale .97`, 140 ms), activar una pieza (color y relleno, 220 ms), elevar la suspensión (el 4x4 sube 14 px, 260 ms).
-- **Galería de fotos reales (cuando exista):** mosaico con revelado por recorte, zoom 1,03 dentro del marco al pasar el cursor y visor ampliado con teclado.
+- **Galería de fotos reales (cuando exista):** mosaico con revelado por recorte, zoom 1,03 dentro del marco al pasar el cursor y visor ampliado con teclado y deslizamiento. Al filtrar, las fotos que vuelven a verse entran con un fundido corto (260 ms) y el resultado se anuncia en una región `aria-live`.
+- **Casillas de «Mi lista»:** cada chip lleva un punto de estado (aro vacío → relleno al elegir) para que el estado se lea sin depender del color; el contador da un pequeño pulso al cambiar.
+- **Línea de progreso:** una línea roja bajo la cabecera avanza con el scroll (`animation-timeline: scroll()`, solo donde el navegador lo soporta).
+- **Asistente:** el panel sube 8 px y aparece (220 ms). Cada mensaje entra con un fundido corto (200 ms); con `prefers-reduced-motion` todo aparece al instante.
 - Curva única: `cubic-bezier(0.23, 1, 0.32, 1)` (ease-out fuerte). Sin `ease-in`, sin `transition: all`, nada parte de `scale(0)`. Efectos `hover` solo con `(hover: hover) and (pointer: fine)`.
 - **Con `prefers-reduced-motion` no hay animaciones** y todo aparece en su estado final.
 - Nota técnica: el recorte de revelado se aplica a la *imagen hija*, nunca al contenedor que observa el `IntersectionObserver` (un contenedor totalmente recortado nunca cuenta como visible).
+
+## Asistente de preguntas
+Botón fijo abajo a la izquierda («¿Dudas? Pregunta»; en móvil, solo el icono de 52 px) que abre un panel **no modal**: la página sigue usable detrás. Registro `role="log"`, foco al abrir y al cerrar, Esc cierra. Respuestas cortas con botones de acción (ir a una sección, abrir WhatsApp, armar la lista). Texto siempre insertado con `textContent`. Se coloca abajo a la izquierda para no tapar el contenido principal ni los controles del visor.
 
 ## Superficies del navegador
 Selección de texto roja, cursor (`caret-color`) rojo, barra de desplazamiento oscura, anillo de foco rojo con desplazamiento, cifras tabulares en contadores.

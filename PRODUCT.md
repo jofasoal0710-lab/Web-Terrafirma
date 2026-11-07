@@ -25,5 +25,11 @@ Español de Costa Rica, directo y concreto. Verbos simples, frases cortas, sin e
 - Las categorías y accesorios del catálogo son una propuesta genérica de equipamiento 4x4; confirmar contra el catálogo real.
 - La sección **Proyectos** permanece oculta hasta que existan fotos reales de instalaciones (`PROJECTS` en `public/js/main.js`).
 
+## Asistente de preguntas (límites)
+- Contesta **solo con lo que ya dice el sitio**. Si no lo sabe, lo dice y ofrece enviar la pregunta al equipo (queda escrita en el formulario).
+- **Nunca inventa** garantía, tiempos de instalación, precios, compatibilidad por modelo, dirección, horario ni formas de pago. Esas respuestas se añaden en `INTENTS` (`public/js/assistant.js`) cuando el cliente confirme el dato.
+- El recomendador sugiere accesorios según uso, terreno, carga y viaje de noche; es orientación, no una cotización, y siempre pasa por «Mi lista».
+- No es IA generativa ni usa servidor. Una versión con IA requeriría una función de Netlify, clave de API, límites de uso y revisión de privacidad.
+
 ## Pendiente de recibir
-Fotos reales de instalaciones y de producto; datos de contacto; catálogo real.
+Fotos reales de instalaciones y de producto (con vehículo y accesorios instalados para el catálogo); datos de contacto; catálogo real; datos de negocio para el asistente (garantía, tiempos, pagos).

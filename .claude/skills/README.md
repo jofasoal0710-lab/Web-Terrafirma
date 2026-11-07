@@ -14,6 +14,7 @@ Las licencias están en [`THIRD_PARTY_LICENSES/`](THIRD_PARTY_LICENSES/).
 | `design-dna` | zanwei | [zanwei/design-dna](https://github.com/zanwei/design-dna) @ `593e39b` | MIT |
 | `motion-design` | LottieFiles | [LottieFiles/motion-design-skill](https://github.com/LottieFiles/motion-design-skill) @ `f9a8a04` | MIT |
 | `cast`, `paint`, `bunshin` + módulos `_jutsu/` (v4.1.3) | AThevon | [AThevon/genjutsu](https://github.com/AThevon/genjutsu) @ `5e00595` | MIT (el módulo `ui-ux-pro-max` trae su licencia MIT original en `_jutsu/ui-ux-pro-max/LICENSE-upstream.txt`) |
+| `brainstorming`, `writing-plans`, `systematic-debugging`, `verification-before-completion` | Jesse Vincent | [obra/superpowers](https://github.com/obra/superpowers) @ `22f0b46` | MIT |
 
 ## Qué se omitió a propósito
 
@@ -31,6 +32,20 @@ Las licencias están en [`THIRD_PARTY_LICENSES/`](THIRD_PARTY_LICENSES/).
   - `bunshin`: reconstruye un sitio entero con muchos subagentes. Anuncia su costo y pide confirmación antes de empezar; no usarla sin querer rehacer todo.
   - Incluye módulos para Android y Apple que no aplican a este sitio. Sus scripts (`shoot.mjs` lanza un Chrome local, `audit.py` es análisis estático, `search.py` consulta un CSV local) solo corren si se invocan. Sin hooks.
 - **Solapamiento:** Impeccable, Taste, `frontend-design`, `paint`, `motion-design` y las skills de Emil dan guías distintas para lo mismo. Pide **una** por tarea y nómbrala.
+
+## Superpowers (razonamiento): notas
+
+Cuatro skills para que el asistente piense antes de actuar:
+- `brainstorming`: ante una petición con huecos, hace preguntas y propone enfoques antes de construir. Si la petición ya es clara, la ejecuta.
+- `writing-plans`: convierte un diseño aprobado en un plan de pasos pequeños.
+- `systematic-debugging`: ante un error, busca la causa raíz antes de proponer arreglos.
+- `verification-before-completion`: exige comprobar con pruebas reales antes de decir "listo".
+
+Qué se omitió y por qué:
+- **Sus *hooks* de arranque** y el resto de las 11 skills (subagentes, worktrees, TDD, revisión de código…), que cambian mucho el flujo de trabajo y no hacen falta aquí.
+- **El "visual companion" de `brainstorming`** (`visual-companion.md` y `scripts/`): es un servidor local de Node que carga un logo desde `primeradiant.com`. Si la skill ofrece usarlo, no está instalado en este proyecto.
+- **Referencias cruzadas:** el texto de las skills nombra a otras con el prefijo del plugin (`superpowers:writing-plans`) y menciona skills no instaladas (`subagent-driven-development`, `executing-plans`). Aquí se invocan por su nombre simple y esas menciones pueden ignorarse.
+- Si `brainstorming` resulta demasiado insistente para tu forma de trabajar, bórrala: basta eliminar la carpeta `.claude/skills/brainstorming/`.
 
 ## Anthropic: notas
 

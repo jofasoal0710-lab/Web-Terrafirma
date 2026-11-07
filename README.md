@@ -9,7 +9,8 @@ Es un sitio estático (HTML + CSS + JS, **sin dependencias ni paso de compilaci�
 - **Hero interactivo:** un esquema técnico del 4x4 donde cada accesorio se toca para añadirlo a la lista (en móvil, las mismas piezas aparecen como chips).
 - Catálogo por categorías, **kits sugeridos** por tipo de uso (se cargan en la misma lista) y sección de instalación en Musmanni's Workshop.
 - **Mi lista**: el cliente revisa lo que eligió y envía la lista con un clic al formulario.
-- Sección **Proyectos** con fotos reales: permanece oculta hasta que existan.
+- Sección **Proyectos** con fotos reales (filtros por tipo de trabajo, visor con deslizamiento y botón para añadir a la lista los accesorios de cada foto): permanece oculta hasta que existan.
+- **Asistente de preguntas** («¿Dudas? Pregunta»): contesta lo que ya dice el sitio, recomienda accesorios con 4 preguntas y, si no sabe algo, lo dice y deja la pregunta escrita en el formulario. No usa IA ni servidor.
 - Formulario de contacto con **Netlify Forms** (antispam honeypot) y página de gracias.
 - Página 404, favicon, cabeceras de seguridad y tipografías autoalojadas.
 - Responsive y accesible (teclado, `aria-*`, `prefers-reduced-motion`).
@@ -29,6 +30,7 @@ Es un sitio estático (HTML + CSS + JS, **sin dependencias ni paso de compilaci�
     ├── favicon.svg
     ├── css/styles.css    # paleta en las variables :root (rojo Terrafirma)
     ├── js/main.js        # MODS (catálogo), HOTSPOTS (piezas del esquema) y PROJECTS (fotos)
+    ├── js/assistant.js   # asistente de preguntas: INTENTS (respuestas), ADVISOR y WHY (recomendador)
     ├── images/           # logos de Terrafirma y Musmanni's Workshop
     └── fonts/            # Barlow y Barlow Condensed (SIL OFL)
 ```
@@ -60,16 +62,30 @@ Con `whatsapp` (código de país y solo dígitos) aparecen los botones **Escribi
 | Catálogo de "Mi lista" | `MODS` en `public/js/main.js` |
 | Piezas tocables del esquema y su posición | `HOTSPOTS` en `public/js/main.js` y el `<svg class="rig">` de `public/index.html` (`data-part` debe coincidir con el `id` de `MODS`) |
 | Fotos de proyectos | `PROJECTS` en `public/js/main.js` |
+| Preguntas y respuestas del asistente | `INTENTS` en `public/js/assistant.js` |
+| Recomendador del asistente (qué sugiere según las respuestas) | `ADVISOR` y `WHY` en `public/js/assistant.js` |
 | Colores y tipografía | variables `:root` en `public/css/styles.css` (`--red` rellena, `--red-text` para texto); ver `DESIGN.md` |
 | Logos | `public/images/` |
 
 **Fotos reales de proyectos:** copia las imágenes a `public/images/proyectos/` (JPG o WebP, idealmente de unos 1600 px de ancho y menos de 300 KB cada una) y añade una entrada a `PROJECTS` en `public/js/main.js`:
 
 ```js
-{ img: '/images/proyectos/hilux.jpg', alt: 'Toyota Hilux con snorkel y portaequipajes', size: 'wide' }
+{ img: '/images/proyectos/hilux.jpg', alt: 'Toyota Hilux con snorkel y portaequipajes',
+  size: 'wide', tags: ['overland', 'carga'], vehicle: 'Toyota Hilux 2018', items: ['snork', 'rack'] }
 ```
 
-`size` es opcional (`'wide'` o `'tall'`) y da ritmo al mosaico. La sección **Proyectos**, su visor ampliado y el enlace del menú aparecen solos en cuanto haya al menos una foto. Antes de publicar una foto, confirma que tienes derecho a usarla y que no muestra placas, rostros o datos de clientes sin su permiso.
+Solo `img` y `alt` son obligatorios; el resto es opcional:
+
+- `size`: `'wide'` o `'tall'`, da ritmo al mosaico.
+- `tags`: tipo de trabajo. Con dos o más etiquetas distintas aparecen solos los filtros. Nombres ya traducidos: `suspension`, `proteccion`, `overland`, `carga`, `luces`, `recuperacion`, `ruedas` (cualquier otro se muestra tal cual, con la primera letra en mayúscula).
+- `vehicle`: texto que se ve en el visor.
+- `items`: ids de `MODS` instalados en ese vehículo. El visor los lista y ofrece **Añadir estos accesorios a mi lista**.
+
+La sección **Proyectos**, su visor ampliado (flechas, Esc y deslizar con el dedo) y el enlace del menú aparecen solos en cuanto haya al menos una foto. Antes de publicar una foto, confirma que tienes derecho a usarla y que no muestra placas, rostros o datos de clientes sin su permiso.
+
+**Asistente de preguntas:** vive en `public/js/assistant.js`. Cada entrada de `INTENTS` tiene una pregunta (`q`), palabras que la activan (`keys`, sin importar tildes ni mayúsculas) y la respuesta (`a`). Para añadir una respuesta con un dato del negocio (garantía, tiempos, formas de pago), agrega una entrada nueva **solo cuando el dato sea real**: el asistente nunca debe inventar. Lo que no reconoce lo deriva al equipo con la pregunta ya escrita en el formulario. Las respuestas de contacto, ubicación y horario usan `CONTACT` y se completan solas cuando esos datos existen.
+
+Para que una pregunta con IA real (respuestas libres) sea posible hace falta una función de Netlify con una clave de API, límite de uso y control de abuso; hoy el sitio no tiene backend a propósito.
 
 **Precios:** el sitio no muestra precios; todo se cotiza por vehículo.
 

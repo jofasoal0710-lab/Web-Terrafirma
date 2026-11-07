@@ -67,8 +67,10 @@
   const CONTACT = { whatsapp: '', phone: '', email: '', address: '', hours: '' };
 
   // Fotos reales de instalaciones. Mientras esté vacío, la sección "Proyectos" permanece oculta.
-  // { img: '/images/proyectos/hilux.jpg', alt: 'Toyota Hilux con snorkel y portaequipajes', size: 'wide' }
-  // `size` es opcional: 'wide' (ocupa más ancho) o 'tall' (ocupa más alto) para dar ritmo al mosaico.
+  // { img: '/images/proyectos/hilux.jpg', alt: 'Toyota Hilux con snorkel y portaequipajes',
+  //   size: 'wide', tags: ['overland'], vehicle: 'Toyota Hilux 2018', items: ['snork', 'rack', 'led'] }
+  // Opcionales: `size` ('wide' o 'tall', da ritmo al mosaico), `tags` (crean los filtros), `vehicle` (se muestra en el visor)
+  // e `items` (ids de MODS: el visor ofrece añadir esos accesorios a la lista).
   const PROJECTS = [];
 
   /* ------------------------------------------------------------------ *
@@ -307,7 +309,10 @@
 
     save([...ids]);
     waLinks.forEach((a) => { a.href = waUrl(list); });
-    if (ready && list.length !== lastCount) status.textContent = list.length ? `${plural(list.length)} en tu lista` : 'Tu lista está vacía';
+    if (ready && list.length !== lastCount) {
+      status.textContent = list.length ? `${plural(list.length)} en tu lista` : 'Tu lista está vacía';
+      [sumCount, heroCount].forEach((n) => { n.classList.remove('bump'); void n.offsetWidth; n.classList.add('bump'); });
+    }
     lastCount = list.length;
   };
 
@@ -398,33 +403,89 @@
   }));
 
   /* ------------------------------------------------------------------ *
-   * Proyectos: solo aparecen si hay fotos reales (mosaico + visor ampliado)
+   * Catálogo de fotos: solo aparece si hay fotos reales (filtros + mosaico + visor)
    * ------------------------------------------------------------------ */
   if (PROJECTS.length) {
+    const TAGS = { suspension: 'Suspensión', proteccion: 'Protección', overland: 'Overland', carga: 'Techo y carga', luces: 'Iluminación', recuperacion: 'Recuperación', ruedas: 'Ruedas' };
+    const tagLabel = (t) => TAGS[t] || t.charAt(0).toUpperCase() + t.slice(1);
     const gallery = $('#gallery');
+    const filters = $('#gallery-filters');
+    const gStatus = $('#gallery-status');
     const lb = $('#lightbox');
     const lbImg = $('.lb-img', lb);
+    const lbBar = $('#lb-bar');
+    const lbAdd = $('#lb-add');
+    let active = 'todos';
     let cur = 0;
-    const show = (i) => {
-      cur = (i + PROJECTS.length) % PROJECTS.length;
-      lbImg.src = PROJECTS[cur].img;
-      lbImg.alt = PROJECTS[cur].alt;
-    };
-    PROJECTS.forEach((p, i) => {
+    let shown = PROJECTS.map((_, i) => i);   // índices visibles según el filtro
+
+    const shots = PROJECTS.map((p, i) => {
       const shot = el('button', {
         class: `shot${p.size ? ` ${p.size}` : ''}`, type: 'button', 'data-reveal': '', 'aria-label': `Ampliar foto: ${p.alt}`,
       }, el('img', { src: p.img, alt: p.alt, loading: 'lazy' }));
-      shot.addEventListener('click', () => { show(i); lb.showModal(); });
+      shot.addEventListener('click', () => { cur = shown.indexOf(i); show(); lb.showModal(); });
       gallery.append(shot);
+      return shot;
+    });
+
+    const tags = [...new Set(PROJECTS.flatMap((p) => p.tags || []))];
+    if (tags.length > 1) {
+      [['todos', 'Todos'], ...tags.map((t) => [t, tagLabel(t)])].forEach(([key, label]) => {
+        const b2 = el('button', { class: 'pick', type: 'button', 'aria-pressed': String(key === active), 'data-tag': key }, el('span', { text: label }));
+        b2.addEventListener('click', () => {
+          active = key;
+          $$('[data-tag]', filters).forEach((x) => x.setAttribute('aria-pressed', String(x === b2)));
+          shown = PROJECTS.map((p, i) => i).filter((i) => key === 'todos' || (PROJECTS[i].tags || []).includes(key));
+          shots.forEach((s, i) => {
+            const on = shown.includes(i);
+            if (on && s.hidden) { s.hidden = false; s.classList.add('in'); s.style.animation = 'none'; void s.offsetWidth; s.style.animation = ''; s.classList.add('shot-in'); }
+            if (!on) { s.hidden = true; s.classList.remove('shot-in'); }
+          });
+          gStatus.textContent = `Mostrando ${shown.length} ${shown.length === 1 ? 'foto' : 'fotos'}`;
+        });
+        filters.append(b2);
+      });
+      filters.hidden = false;
+    }
+
+    function show() {
+      const i = shown[cur];
+      const p = PROJECTS[i];
+      lbImg.src = p.img;
+      lbImg.alt = p.alt;
+      $('#lb-count').textContent = `${cur + 1} / ${shown.length}`;
+      $('#lb-vehicle').textContent = p.vehicle || '';
+      $('#lb-vehicle').hidden = !p.vehicle;
+      $('#lb-items').replaceChildren(...(p.items || []).filter((id) => catalog.has(id)).map((id) => el('li', { text: catalog.get(id).name })));
+      lbAdd.hidden = !(p.items && p.items.some((id) => catalog.has(id)));
+      lbAdd.textContent = 'Añadir estos accesorios a mi lista';
+      lbAdd.removeAttribute('aria-disabled');
+      [-1, 1].forEach((d) => { const q = PROJECTS[shown[(cur + d + shown.length) % shown.length]]; if (q) new Image().src = q.img; });   // precarga vecinas
+    }
+    const step = (d) => { cur = (cur + d + shown.length) % shown.length; show(); };
+    lbAdd.addEventListener('click', () => {
+      if (lbAdd.getAttribute('aria-disabled') === 'true') return;   // aria-disabled (no disabled): el foco se queda y las flechas siguen funcionando
+      const p = PROJECTS[shown[cur]];
+      const ids = (p.items || []).filter((id) => catalog.has(id));
+      ids.forEach((id) => { const input = box(id); if (input) input.checked = true; });
+      renderAll();
+      lbAdd.textContent = `Añadido: ya tienes ${selected().length} en tu lista`;
+      lbAdd.setAttribute('aria-disabled', 'true');
     });
     $('.lb-close', lb).addEventListener('click', () => lb.close());
-    $('.lb-prev', lb).addEventListener('click', () => show(cur - 1));
-    $('.lb-next', lb).addEventListener('click', () => show(cur + 1));
+    $('.lb-prev', lb).addEventListener('click', () => step(-1));
+    $('.lb-next', lb).addEventListener('click', () => step(1));
     if (PROJECTS.length < 2) { $('.lb-prev', lb).hidden = true; $('.lb-next', lb).hidden = true; }
     lb.addEventListener('click', (e) => { if (e.target === lb) lb.close(); });
-    lb.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowLeft') show(cur - 1);
-      if (e.key === 'ArrowRight') show(cur + 1);
+    lb.addEventListener('keydown', (e) => { if (e.key === 'ArrowLeft') step(-1); if (e.key === 'ArrowRight') step(1); });
+    // deslizar con el dedo o el puntero
+    let sx = 0;
+    let sy = 0;
+    lbImg.addEventListener('pointerdown', (e) => { sx = e.clientX; sy = e.clientY; });
+    lbImg.addEventListener('pointerup', (e) => {
+      const dx = e.clientX - sx;
+      const dy = e.clientY - sy;
+      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) step(dx < 0 ? 1 : -1);
     });
     $('#proyectos').hidden = false;
     $('#nav-proyectos').hidden = false;
@@ -460,4 +521,20 @@
   loadSaved().forEach((id) => { const input = box(id); if (input) input.checked = true; });
   renderAll();
   ready = true;
+
+  /* API mínima que usa el asistente (assistant.js) */
+  window.TF = {
+    contact: CONTACT,
+    waEnabled: Boolean(waDigits),
+    waUrl: () => waUrl(selected()),
+    name: (id) => (catalog.get(id) || {}).name || id,
+    count: () => selected().length,
+    add: (ids) => { ids.forEach((id) => { const input = box(id); if (input) input.checked = true; }); renderAll(); return selected().length; },
+    go: (sel) => { const t = $(sel); if (t) t.scrollIntoView({ behavior: 'smooth' }); },
+    askTeam: (q) => {
+      message.value = `${message.value ? `${message.value}\n\n` : ''}Pregunta: ${q}`;
+      $('#contacto').scrollIntoView({ behavior: 'smooth' });
+      setTimeout(() => $('input[name="nombre"]').focus({ preventScroll: true }), 500);
+    },
+  };
 })();

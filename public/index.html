@@ -48,6 +48,7 @@
       <a class="btn btn-sm" href="#contacto">Solicitar cotización</a>
     </nav>
   </div>
+  <div class="progress" aria-hidden="true"></div>
 </header>
 
 <main id="contenido" tabindex="-1">
@@ -282,6 +283,8 @@
         <h2>Proyectos instalados</h2>
         <p>Trabajos reales realizados en Musmanni's Workshop.</p>
       </header>
+      <div class="filters" id="gallery-filters" role="group" aria-label="Filtrar proyectos" hidden></div>
+      <p class="sr-only" id="gallery-status" role="status" aria-live="polite"></p>
       <div id="gallery" class="gallery"></div>
     </div>
   </section>
@@ -339,10 +342,39 @@
 
 </main>
 
+<div class="assistant" id="assistant" hidden>
+  <section class="as-panel" id="as-panel" role="dialog" aria-modal="false" aria-labelledby="as-title" tabindex="-1" hidden>
+    <header class="as-head">
+      <div>
+        <p class="as-title" id="as-title">Asistente de Terrafirma</p>
+        <p class="as-sub">Respuestas automáticas guiadas. Lo que no sé, lo paso al equipo.</p>
+      </div>
+      <button class="as-close" type="button" aria-label="Cerrar el asistente"></button>
+    </header>
+    <div class="as-log" id="as-log" role="log" aria-live="polite" aria-label="Conversación"></div>
+    <div class="as-actions" id="as-actions"></div>
+    <form class="as-form" id="as-form" autocomplete="off">
+      <label class="sr-only" for="as-input">Escribe tu pregunta</label>
+      <input id="as-input" type="text" maxlength="200" placeholder="Escribe tu pregunta…">
+      <button class="btn btn-sm" type="submit">Enviar</button>
+    </form>
+  </section>
+  <button class="as-launcher" id="as-launcher" type="button" aria-expanded="false" aria-controls="as-panel">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5h16v10H12l-4.5 4v-4H4z"/><path d="M8 9.5h8M8 12.5h5"/></svg>
+    <span>¿Dudas? Pregunta</span>
+  </button>
+</div>
+
 <p class="sr-only" id="list-status" role="status" aria-live="polite"></p>
 
 <dialog class="lightbox" id="lightbox" aria-label="Foto ampliada">
-  <img class="lb-img" alt="">
+  <img class="lb-img" alt="" draggable="false">
+  <div class="lb-bar" id="lb-bar">
+    <p class="lb-count" id="lb-count"></p>
+    <p class="lb-vehicle" id="lb-vehicle"></p>
+    <ul class="lb-items" id="lb-items"></ul>
+    <button class="btn btn-sm" type="button" id="lb-add" hidden>Añadir estos accesorios a mi lista</button>
+  </div>
   <button class="lb-btn lb-close" type="button" aria-label="Cerrar"></button>
   <button class="lb-btn lb-prev" type="button" aria-label="Foto anterior"></button>
   <button class="lb-btn lb-next" type="button" aria-label="Foto siguiente"></button>
@@ -360,5 +392,6 @@
 </footer>
 
 <script src="/js/main.js" defer></script>
+<script src="/js/assistant.js" defer></script>
 </body>
 </html>
