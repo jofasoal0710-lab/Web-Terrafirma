@@ -3,3 +3,6 @@ node_modules/
 .netlify/
 .env
 *.log
+
+# Binarios del motor de Impeccable (se descargan por separado, verificados por SHA-256)
+.claude/skills/impeccable/scripts/bin/
