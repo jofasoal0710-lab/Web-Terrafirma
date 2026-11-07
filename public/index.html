@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Terrafirma Costa Rica · Accesorios 4x4 e instalación en Musmanni's Workshop</title>
   <meta name="description" content="Terrafirma Costa Rica: serious 4x4 accessories. Suspensión, defensas, winches, portaequipajes, snorkel e iluminación para tu 4x4, instalados en Musmanni's Workshop. Arma tu lista y pide cotización.">
-  <meta name="theme-color" content="#0b0c0f">
+  <meta name="theme-color" content="#000000">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="es_CR">
   <meta property="og:title" content="Terrafirma Costa Rica · Serious 4x4 Accessories">
@@ -16,77 +16,6 @@
   <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
-
-<!-- Siluetas reutilizables: el 4x4 se colorea con "color" (currentColor) -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-  <defs>
-    <g id="wheel">
-      <circle r="44" fill="#08090b"/>
-      <circle r="40" fill="none" stroke="#242831" stroke-width="7" stroke-dasharray="7 4.4"/>
-      <circle r="31" fill="#14171d"/>
-      <circle r="23" fill="#a3a9b4"/>
-      <circle r="17" fill="none" stroke="#2b2e35" stroke-width="3.5" stroke-dasharray="3.4 5.6"/>
-      <circle r="9" fill="#2b2e35"/>
-      <circle r="5" fill="#8a909c"/>
-    </g>
-    <linearGradient id="shine" gradientUnits="userSpaceOnUse" x1="0" y1="72" x2="0" y2="194">
-      <stop offset="0" stop-color="#fff" stop-opacity=".26"/>
-      <stop offset=".4" stop-color="#fff" stop-opacity=".02"/>
-      <stop offset="1" stop-color="#000" stop-opacity=".38"/>
-    </linearGradient>
-    <path id="body" d="
-      M58 192 L58 88 Q58 78 68 77 L374 74 L414 122 L592 125
-      Q609 126 611 142 L611 192
-      L532 192 A52 52 0 0 0 428 192
-      L222 192 A52 52 0 0 0 118 192 Z"/>
-
-    <symbol id="rig" viewBox="0 0 640 260">
-      <ellipse cx="325" cy="248" rx="290" ry="8" fill="#000" opacity=".5"/>
-
-      <!-- llanta de repuesto trasera y defensa trasera -->
-      <rect x="34" y="96" width="26" height="74" rx="9" fill="#08090b" stroke="#4a515e" stroke-width="2.5"/>
-      <rect x="38" y="178" width="36" height="14" rx="3" fill="#3a404c" stroke="#5a6272" stroke-width="1.5"/>
-
-      <!-- portaequipajes con barra LED -->
-      <g fill="none" stroke="#5a6272" stroke-width="4" stroke-linecap="round">
-        <path d="M84 52 H356 V66 H84 Z"/>
-        <path d="M120 52V66M156 52V66M192 52V66M228 52V66M264 52V66M300 52V66M332 52V66"/>
-        <path d="M100 66V77M340 66V75"/>
-      </g>
-      <rect x="318" y="42" width="38" height="7" rx="2" fill="#fff6d6"/>
-
-      <!-- carrocería -->
-      <use href="#body" fill="currentColor"/>
-      <use href="#body" fill="url(#shine)"/>
-
-      <!-- cristales y pilares -->
-      <path fill="#0d1117" opacity=".94" d="M84 90 L236 89 L236 128 L84 128 Z"/>
-      <path fill="#0d1117" opacity=".94" d="M252 88 L366 86 L398 122 L252 122 Z"/>
-      <!-- snorkel por el pilar delantero -->
-      <path d="M411 124 L401 64 Q400 58 393 58" fill="none" stroke="#3a404c" stroke-width="8" stroke-linecap="round"/><path d="M411 124 L401 64 Q400 58 393 58" fill="none" stroke="#6b7385" stroke-width="2" stroke-linecap="round"/>
-
-      <!-- línea de cintura, manilla -->
-      <path d="M58 138 H611" stroke="#000" stroke-opacity=".28" stroke-width="3"/>
-      <rect x="332" y="146" width="24" height="5" rx="2.5" fill="#000" opacity=".4"/>
-
-      <!-- estribos / rock sliders -->
-      <rect x="232" y="188" width="188" height="10" rx="5" fill="#3a404c" stroke="#5a6272" stroke-width="1.5"/>
-
-      <!-- defensa delantera con winch y gancho -->
-      <path fill="#2e333e" stroke="#5a6272" stroke-width="1.5" d="M596 156 H624 V196 H606 Q596 196 596 186 Z"/>
-      <rect x="605" y="168" width="15" height="11" rx="2" fill="#7a8394"/>
-      <rect x="613" y="186" width="9" height="6" rx="1.5" fill="#ee2626"/>
-
-      <!-- luces -->
-      <rect x="60" y="148" width="8" height="22" rx="2" fill="#ff2b2b"/>
-      <rect x="594" y="132" width="13" height="13" rx="3" fill="#fff6d6"/>
-
-      <!-- ruedas -->
-      <use href="#wheel" x="170" y="200"/>
-      <use href="#wheel" x="480" y="200"/>
-    </symbol>
-  </defs>
-</svg>
 
 <a class="skip" href="#contenido">Saltar al contenido</a>
 
@@ -102,8 +31,8 @@
       <a href="#accesorios">Accesorios</a>
       <a href="#kits">Kits</a>
       <a href="#instalacion">Instalación</a>
-      <a href="#cotizador">Cotizador</a>
-      <a href="#proyectos">Proyectos</a>
+      <a href="#cotizador">Mi lista</a>
+      <a id="nav-proyectos" href="#proyectos" hidden>Proyectos</a>
       <a class="btn btn-sm" href="#contacto">Pedir cotización</a>
     </nav>
   </div>
@@ -111,126 +40,158 @@
 
 <main id="contenido">
 
-  <!-- HERO -->
+  <!-- HERO: el esquema del 4x4 es la herramienta para armar la lista -->
   <section id="inicio" class="hero">
-  <svg class="terrain" viewBox="0 0 1440 160" preserveAspectRatio="none" aria-hidden="true">
-    <path d="M0 160V96L120 62L220 92L360 36L500 100L620 58L760 112L900 52L1040 104L1180 46L1300 88L1440 60V160Z" fill="#12151b"/>
-    <path d="M0 160V122L160 96L300 126L460 84L620 130L800 94L960 132L1120 92L1280 128L1440 100V160Z" fill="#171b23"/>
-  </svg>
-    <div class="wrap hero-grid">
-      <div class="hero-copy">
-        <p class="eyebrow">Terrafirma Costa Rica · Serious 4x4 Accessories</p>
-        <h1>Equipa tu 4x4.<br><span class="accent">Ve más lejos.</span></h1>
-        <p class="lead">Accesorios Terrafirma para 4x4 y pick-ups, instalados en Musmanni's Workshop. Cuéntanos cómo usas tu vehículo y armamos tu cotización.</p>
-        <div class="cta-row">
-          <a class="btn" href="#cotizador">Arma tu lista</a>
-          <a class="btn btn-ghost" href="#accesorios">Ver accesorios</a>
-        </div>
-        <ul class="pillars" aria-label="Por qué elegirnos">
-          <li><strong>Terrafirma</strong><span>Equipamiento 4x4 serio</span></li>
-          <li><strong>Instalación</strong><span>En Musmanni's Workshop</span></li>
-          <li><strong>Asesoría</strong><span>Según cómo uses tu 4x4</span></li>
-        </ul>
+    <div class="wrap">
+      <div class="hero-head">
+        <h1>Equipa tu 4x4.<br>Ve más lejos.</h1>
+        <p class="lead">Accesorios Terrafirma para 4x4 y pick-ups, instalados en Musmanni's Workshop. Toca las piezas del vehículo para armar tu lista y pide la cotización.</p>
       </div>
-      <div class="hero-art" aria-hidden="true">
-        <div class="glow"></div>
-        <svg class="hero-car" viewBox="0 0 640 260" style="color:#4f8a43"><use href="#rig"/></svg>
+
+      <div class="stage">
+        <svg class="rig" viewBox="0 0 1000 420" role="img" aria-label="Esquema de un 4x4 con los accesorios que puedes añadir a tu lista">
+          <!-- suelo y líneas guía hacia cada pieza -->
+          <path class="ground" d="M70 334H930"/>
+          <g class="leaders" aria-hidden="true">
+            <line data-for="rack"    x1="300" y1="36"  x2="300" y2="58"/>
+            <line data-for="led"     x1="472" y1="36"  x2="472" y2="44"/>
+            <line data-for="snork"   x1="636" y1="38"  x2="542" y2="88"/>
+            <line data-for="elev"    x1="170" y1="378" x2="200" y2="244"/>
+            <line data-for="at"      x1="330" y1="378" x2="322" y2="334"/>
+            <line data-for="rock"    x1="500" y1="378" x2="480" y2="252"/>
+            <line data-for="def-del" x1="690" y1="378" x2="850" y2="244"/>
+            <line data-for="winch"   x1="850" y1="378" x2="858" y2="222"/>
+          </g>
+
+          <!-- ruedas (no se elevan con la carrocería) -->
+          <g class="wheel" transform="translate(300 272)">
+            <circle class="tire" r="62"/>
+            <circle class="sidewall" r="46"/>
+            <circle class="rim" r="34"/>
+            <circle class="hub" r="11"/>
+            <g class="part tread" data-part="at"><circle r="58"/></g>
+          </g>
+          <g class="wheel" transform="translate(650 272)">
+            <circle class="tire" r="62"/>
+            <circle class="sidewall" r="46"/>
+            <circle class="rim" r="34"/>
+            <circle class="hub" r="11"/>
+            <g class="part tread" data-part="at"><circle r="58"/></g>
+          </g>
+
+          <!-- resortes visibles al elevar -->
+          <g class="part springs" data-part="elev" aria-hidden="true">
+            <path d="M300 180l-9 5 18 7-18 7 18 7-9 5"/>
+            <path d="M650 180l-9 5 18 7-18 7 18 7-9 5"/>
+          </g>
+
+          <!-- carrocería y accesorios acoplados (suben juntos con la elevación) -->
+          <g class="body-group" id="body-group">
+            <path class="body draw" pathLength="1" d="M150 242 L150 100 Q150 84 166 84 L520 80 L568 148 L812 152 Q832 153 836 172 L836 242 L720 242 A70 70 0 0 0 580 242 L370 242 A70 70 0 0 0 230 242 Z"/>
+            <path class="glass" d="M172 106 L318 105 L318 148 L172 148 Z"/>
+            <path class="glass" d="M334 104 L514 102 L552 148 L334 148 Z"/>
+            <path class="seam" d="M326 104V242M530 150V242M150 148H836"/>
+            <path class="seam" d="M346 170h22M450 170h22"/>
+            <rect class="lamp" x="808" y="164" width="16" height="16" rx="3"/>
+            <rect class="lamp tail" x="152" y="176" width="8" height="30"/>
+
+            <g class="part" data-part="rack"><path d="M196 58H496V76H196ZM226 58V76M256 58V76M286 58V76M316 58V76M346 58V76M376 58V76M406 58V76M436 58V76M466 58V76"/></g>
+            <g class="part" data-part="led"><rect x="452" y="44" width="44" height="8" rx="2"/><path class="beam" d="M502 46h30M502 50h22"/></g>
+            <g class="part" data-part="snork"><path class="tube" d="M552 140L540 90Q538 80 528 78"/></g>
+            <g class="part" data-part="rock"><rect x="392" y="238" width="176" height="12" rx="6"/></g>
+            <g class="part" data-part="def-del"><path d="M836 188H872V242H846Q836 242 836 232Z"/></g>
+            <g class="part" data-part="winch"><rect x="842" y="204" width="22" height="16" rx="3"/><circle cx="868" cy="228" r="3"/></g>
+          </g>
+        </svg>
+        <!-- los botones sobre el esquema los genera js/main.js -->
+        <div class="hotspots" id="hotspots"></div>
+      </div>
+
+      <ul class="hero-chips" id="hero-chips" aria-label="Piezas del esquema"></ul>
+
+      <div class="hero-bar">
+        <p class="hint">Toca una pieza para añadirla. La cotización final depende de tu vehículo.</p>
+        <a class="btn" href="#cotizador" id="hero-cta">Ver mi lista <span class="count" id="hero-count">(0)</span></a>
       </div>
     </div>
   </section>
 
   <!-- ACCESORIOS -->
   <section id="accesorios" class="section">
-    <div class="wrap">
-      <header class="section-head reveal">
-        <p class="eyebrow">Accesorios</p>
+    <div class="wrap split">
+      <header class="rail">
         <h2>Todo para preparar tu 4x4</h2>
         <p>Desde una mejora puntual hasta un vehículo de expedición completo. Elige una categoría o combínalas en un solo proyecto.</p>
       </header>
 
-      <div class="cards">
-        <article class="card reveal">
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v4M7 6l10 2.5L7 11l10 2.5L7 16l10 2.5M12 18.5V22"/></svg>
-          <h3>Suspensión y elevación</h3>
-          <p>Kits de elevación, amortiguadores y resortes para ganar altura libre y control en terreno difícil.</p>
-        </article>
-        <article class="card reveal">
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg>
-          <h3>Defensas y protección</h3>
-          <p>Defensas, protectores de bajos y estribos tipo rock slider para cuidar tu vehículo en la trocha.</p>
-        </article>
-        <article class="card reveal">
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="8" width="13" height="8" rx="2"/><path d="M7 8v8M11 8v8M16 12h5M21 12v3"/></svg>
-          <h3>Winches y recuperación</h3>
-          <p>Winches, puntos de remolque y equipo de recuperación para salir de cualquier atasco.</p>
-        </article>
-        <article class="card reveal">
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h18v6H3zM7 8V5M17 8V5M7 14v3M17 14v3M9 8v6M12 8v6M15 8v6"/></svg>
-          <h3>Techo y carga</h3>
-          <p>Portaequipajes, barras y soportes para llevar todo lo que necesitas en tu expedición.</p>
-        </article>
-        <article class="card reveal">
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 21V8a4 4 0 0 1 4-4h5v4h-4a1 1 0 0 0-1 1v12"/></svg>
-          <h3>Snorkel y admisión</h3>
-          <p>Snorkel para tomar aire limpio y cruzar ríos y zonas de agua con más confianza.</p>
-        </article>
-        <article class="card reveal">
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="9" width="12" height="6" rx="1.5"/><path d="M18 8l3-2M18 12h3M18 16l3 2"/></svg>
-          <h3>Iluminación</h3>
-          <p>Barras LED, faros auxiliares y luces de trabajo para ver más lejos de noche.</p>
-        </article>
+      <div>
+        <dl class="catalog">
+          <div><dt>Suspensión y elevación</dt><dd>Kits de elevación, amortiguadores y resortes para ganar altura libre y control en terreno difícil.</dd></div>
+          <div><dt>Defensas y protección</dt><dd>Defensas, protectores de bajos y estribos tipo rock slider para cuidar tu vehículo en la trocha.</dd></div>
+          <div><dt>Winches y recuperación</dt><dd>Winches, puntos de remolque y equipo de recuperación para salir de cualquier atasco.</dd></div>
+          <div><dt>Techo y carga</dt><dd>Portaequipajes, barras y soportes para llevar todo lo que necesitas en tu expedición.</dd></div>
+          <div><dt>Snorkel y admisión</dt><dd>Snorkel y filtro de alto flujo para tomar aire limpio y cruzar ríos con más confianza.</dd></div>
+          <div><dt>Iluminación</dt><dd>Barras LED, faros auxiliares y luces de trabajo para ver más lejos de noche.</dd></div>
+        </dl>
+        <p class="fineprint">La compatibilidad y la disponibilidad dependen de la marca, el modelo y el año de tu vehículo. Consúltanos antes de decidir.</p>
       </div>
-      <p class="fineprint">La compatibilidad y disponibilidad dependen de la marca, modelo y año de tu vehículo. Consúltanos antes de decidir.</p>
     </div>
   </section>
 
   <!-- KITS -->
   <section id="kits" class="section alt">
     <div class="wrap">
-      <header class="section-head reveal">
-        <p class="eyebrow">Kits sugeridos</p>
+      <header class="section-head">
         <h2>Equipa según cómo lo usas</h2>
-        <p>Combinaciones recomendadas para cada tipo de uso. La lista final y la cotización se ajustan a tu vehículo.</p>
+        <p>Tres combinaciones de partida. Añádelas a tu lista y ajústala a tu vehículo.</p>
       </header>
 
-      <div class="packs">
-        <article class="pack reveal">
-          <h3>Trocha y diario</h3>
-          <p class="pack-tag">Protección para el día a día</p>
-          <ul>
-            <li>Protector de bajos</li>
-            <li>Estribos o rock sliders</li>
-            <li>Iluminación auxiliar</li>
-            <li>Amortiguadores mejorados</li>
-          </ul>
-          <a class="btn btn-ghost" href="#contacto" data-pack="Trocha y diario">Cotizar este kit</a>
-        </article>
+      <div class="kits">
+        <div class="tabs" role="tablist" aria-label="Tipo de uso" id="kit-tabs">
+          <button class="tab" role="tab" id="tab-trocha" aria-controls="kit-trocha" aria-selected="true">Trocha y diario</button>
+          <button class="tab" role="tab" id="tab-overland" aria-controls="kit-overland" aria-selected="false" tabindex="-1">Overland y viajes</button>
+          <button class="tab" role="tab" id="tab-expedicion" aria-controls="kit-expedicion" aria-selected="false" tabindex="-1">Expedición</button>
+        </div>
 
-        <article class="pack featured reveal">
-          <h3>Overland y viajes</h3>
-          <p class="pack-tag">Para rutas largas y cargadas</p>
-          <ul>
-            <li>Kit de elevación</li>
-            <li>Portaequipajes de techo</li>
-            <li>Snorkel</li>
-            <li>Barra LED y faros auxiliares</li>
-            <li>Neumáticos todo terreno</li>
-          </ul>
-          <a class="btn" href="#contacto" data-pack="Overland y viajes">Cotizar este kit</a>
-        </article>
+        <div class="panels">
+          <div class="panel" role="tabpanel" id="kit-trocha" aria-labelledby="tab-trocha" data-items="skid,rock,faros,amort">
+            <h3 class="panel-title">Trocha y diario</h3>
+            <p class="panel-lead">Protección para el día a día, con salidas ocasionales a la trocha.</p>
+            <ul class="checks">
+              <li>Protector de bajos</li>
+              <li>Estribos o rock sliders</li>
+              <li>Faros auxiliares</li>
+              <li>Amortiguadores mejorados</li>
+            </ul>
+            <button class="btn" type="button" data-add-kit>Añadir a mi lista</button>
+          </div>
 
-        <article class="pack reveal">
-          <h3>Expedición</h3>
-          <p class="pack-tag">Off-road exigente</p>
-          <ul>
-            <li>Defensas reforzadas con winch</li>
-            <li>Puntos de remolque y recuperación</li>
-            <li>Suspensión de largo recorrido</li>
-            <li>Protección completa de bajos</li>
-            <li>Equipo de recuperación</li>
-          </ul>
-          <a class="btn btn-ghost" href="#contacto" data-pack="Expedición">Cotizar este kit</a>
-        </article>
+          <div class="panel" role="tabpanel" id="kit-overland" aria-labelledby="tab-overland" data-items="elev,rack,snork,led,faros,at">
+            <h3 class="panel-title">Overland y viajes</h3>
+            <p class="panel-lead">Para rutas largas y vehículos cargados.</p>
+            <ul class="checks">
+              <li>Kit de elevación</li>
+              <li>Portaequipajes de techo</li>
+              <li>Snorkel</li>
+              <li>Barra LED y faros auxiliares</li>
+              <li>Neumáticos todo terreno</li>
+            </ul>
+            <button class="btn" type="button" data-add-kit>Añadir a mi lista</button>
+          </div>
+
+          <div class="panel" role="tabpanel" id="kit-expedicion" aria-labelledby="tab-expedicion" data-items="def-del,winch,remol,elev,skid,recup">
+            <h3 class="panel-title">Expedición</h3>
+            <p class="panel-lead">Off-road exigente, donde salir solo es parte del plan.</p>
+            <ul class="checks">
+              <li>Defensa reforzada con winch</li>
+              <li>Puntos de remolque</li>
+              <li>Suspensión de largo recorrido</li>
+              <li>Protección completa de bajos</li>
+              <li>Equipo de recuperación</li>
+            </ul>
+            <button class="btn" type="button" data-add-kit>Añadir a mi lista</button>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -239,11 +200,10 @@
   <section id="instalacion" class="section">
     <div class="wrap">
       <div class="install">
-        <div class="install-logo reveal">
-          <img src="/images/musmannis-workshop.webp" alt="Logo de Musmanni's Workshop" width="900" height="726" loading="lazy">
+        <div class="install-logo">
+          <img src="/images/musmannis-workshop.webp" alt="Logo de Musmanni's Workshop" width="900" height="728" loading="lazy">
         </div>
-        <div class="install-copy reveal">
-          <p class="eyebrow">Instalación</p>
+        <div class="install-copy">
           <h2>Instalados en Musmanni's Workshop</h2>
           <p class="lead-sm">Los accesorios Terrafirma se instalan en Musmanni's Workshop, el taller donde tu 4x4 queda listo para la trocha.</p>
           <ul class="checks">
@@ -256,78 +216,64 @@
       </div>
 
       <ol class="steps">
-        <li class="reveal"><span class="num">01</span><h3>Asesoría</h3><p>Hablamos de tu vehículo y de cómo lo usas: trocha, viajes, trabajo o expedición.</p></li>
-        <li class="reveal"><span class="num">02</span><h3>Cotización</h3><p>Te enviamos la lista de accesorios recomendada con su cotización.</p></li>
-        <li class="reveal"><span class="num">03</span><h3>Instalación</h3><p>Instalamos los accesorios en Musmanni's Workshop.</p></li>
-        <li class="reveal"><span class="num">04</span><h3>Entrega</h3><p>Revisión final y entrega de tu 4x4 listo para salir.</p></li>
+        <li><span class="num">1</span><h3>Asesoría</h3><p>Hablamos de tu vehículo y de cómo lo usas: trocha, viajes, trabajo o expedición.</p></li>
+        <li><span class="num">2</span><h3>Cotización</h3><p>Te enviamos la lista de accesorios recomendada con su cotización.</p></li>
+        <li><span class="num">3</span><h3>Instalación</h3><p>Instalamos los accesorios en Musmanni's Workshop.</p></li>
+        <li><span class="num">4</span><h3>Entrega</h3><p>Revisión final y entrega de tu 4x4 listo para salir.</p></li>
       </ol>
     </div>
   </section>
 
-  <!-- COTIZADOR -->
+  <!-- MI LISTA -->
   <section id="cotizador" class="section alt">
     <div class="wrap">
-      <header class="section-head reveal">
-        <p class="eyebrow">Cotizador</p>
+      <header class="section-head">
         <h2>Arma tu lista de accesorios</h2>
-        <p>Marca lo que te interesa y envíanos la lista con un clic. Te respondemos con la cotización para tu vehículo.</p>
+        <p>Marca lo que te interesa, también desde el esquema de arriba. Te respondemos con la cotización para tu vehículo.</p>
       </header>
 
       <div class="builder">
-        <div id="mods" class="mods" aria-live="polite"><!-- generado por js/main.js --></div>
+        <div id="mods" class="mods"><!-- generado por js/main.js --></div>
 
         <aside class="summary" aria-labelledby="sum-title">
           <h3 id="sum-title">Tu lista</h3>
           <ul id="sum-list" class="sum-list"></ul>
-          <p id="sum-empty" class="sum-empty">Aún no has elegido nada. Marca opciones a la izquierda.</p>
-          <div class="sum-total">
-            <span>Artículos</span>
-            <strong id="sum-count">0</strong>
-          </div>
-          <p class="fineprint">La cotización final depende de tu vehículo, de la disponibilidad y de la instalación.</p>
+          <p id="sum-empty" class="sum-empty">Aún no has elegido nada.</p>
+          <p class="sum-total"><span>Artículos</span> <strong id="sum-count" class="count">0</strong></p>
           <button id="sum-send" class="btn btn-block" type="button" disabled>Solicitar cotización</button>
           <button id="sum-clear" class="link-btn" type="button" hidden>Limpiar selección</button>
+          <p class="fineprint">La cotización final depende de tu vehículo, de la disponibilidad y de la instalación.</p>
         </aside>
       </div>
     </div>
   </section>
 
-  <!-- PROYECTOS -->
-  <section id="proyectos" class="section">
+  <!-- PROYECTOS: se muestra solo cuando hay fotos reales en js/main.js (PROJECTS) -->
+  <section id="proyectos" class="section" hidden>
     <div class="wrap">
-      <header class="section-head reveal">
-        <p class="eyebrow">Proyectos</p>
-        <h2>Así puede quedar tu 4x4</h2>
-        <p>Configuraciones de ejemplo, por tipo de proyecto. Aquí iremos sumando fotos de trabajos reales.</p>
+      <header class="section-head">
+        <h2>Proyectos instalados</h2>
+        <p>Trabajos reales realizados en Musmanni's Workshop.</p>
       </header>
-
-      <div class="filters" role="group" aria-label="Filtrar proyectos">
-        <button class="chip" type="button" data-filter="todos" aria-pressed="true">Todos</button>
-        <button class="chip" type="button" data-filter="suspension" aria-pressed="false">Suspensión</button>
-        <button class="chip" type="button" data-filter="proteccion" aria-pressed="false">Protección</button>
-        <button class="chip" type="button" data-filter="overland" aria-pressed="false">Overland</button>
-      </div>
-
-      <div id="gallery" class="gallery"><!-- generado por js/main.js --></div>
+      <div id="gallery" class="gallery"></div>
     </div>
   </section>
 
   <!-- CONTACTO -->
   <section id="contacto" class="section alt">
     <div class="wrap contact-grid">
-      <div class="reveal">
-        <p class="eyebrow">Contacto</p>
+      <div>
         <h2>Cuéntanos de tu 4x4</h2>
         <p class="lead-sm">Escríbenos con tu vehículo y lo que quieres instalar. Te respondemos lo antes posible.</p>
         <dl class="info">
-          <div><dt>Instalación</dt><dd>Musmanni's Workshop · dirección por confirmar</dd></div>
-          <div><dt>Teléfono / WhatsApp</dt><dd>Por confirmar</dd></div>
+          <div><dt>Instalación</dt><dd>Musmanni's Workshop, dirección por confirmar</dd></div>
+          <div><dt>Teléfono y WhatsApp</dt><dd>Por confirmar</dd></div>
           <div><dt>Correo</dt><dd>Por confirmar</dd></div>
           <div><dt>Horario</dt><dd>Por confirmar</dd></div>
         </dl>
       </div>
 
-      <form class="form reveal" name="contacto" method="POST" action="/gracias.html" data-netlify="true" netlify-honeypot="bot-field">
+      <form class="form" name="contacto" method="POST" action="/gracias.html" data-netlify="true" netlify-honeypot="bot-field">
         <input type="hidden" name="form-name" value="contacto">
         <p class="hp"><label>No llenar este campo: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
 
@@ -340,7 +286,7 @@
           </label>
         </div>
         <div class="row">
-          <label>Teléfono / WhatsApp
+          <label>Teléfono o WhatsApp
             <input type="tel" name="telefono" autocomplete="tel">
           </label>
           <label>Vehículo (marca, modelo, año)
@@ -353,7 +299,7 @@
             <option>Diario y trocha ocasional</option>
             <option>Overland y viajes</option>
             <option>Trabajo y carga</option>
-            <option>Off-road exigente / expedición</option>
+            <option>Off-road exigente o expedición</option>
           </select>
         </label>
         <label>Mensaje

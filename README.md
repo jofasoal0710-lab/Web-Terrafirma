@@ -6,9 +6,10 @@ Es un sitio estático (HTML + CSS + JS, **sin dependencias ni paso de compilaci�
 
 **Incluye**
 
-- Hero, categorías de accesorios, kits sugeridos por tipo de uso y sección de instalación en Musmanni's Workshop.
-- **Cotizador**: el cliente marca los accesorios que le interesan y envía la lista con un clic al formulario.
-- Galería de proyectos con filtros.
+- **Hero interactivo:** un esquema técnico del 4x4 donde cada accesorio se toca para añadirlo a la lista (en móvil, las mismas piezas aparecen como chips).
+- Catálogo por categorías, **kits sugeridos** por tipo de uso (se cargan en la misma lista) y sección de instalación en Musmanni's Workshop.
+- **Mi lista**: el cliente revisa lo que eligió y envía la lista con un clic al formulario.
+- Sección **Proyectos** con fotos reales: permanece oculta hasta que existan.
 - Formulario de contacto con **Netlify Forms** (antispam honeypot) y página de gracias.
 - Página 404, favicon, cabeceras de seguridad y tipografías autoalojadas.
 - Responsive y accesible (teclado, `aria-*`, `prefers-reduced-motion`).
@@ -18,13 +19,16 @@ Es un sitio estático (HTML + CSS + JS, **sin dependencias ni paso de compilaci�
 ```
 .
 ├── netlify.toml          # publica la carpeta public/ + cabeceras
+├── PRODUCT.md            # qué es el sitio, voz, hechos que no se inventan
+├── DESIGN.md             # sistema de diseño, movimiento y decisiones
+├── .claude/skills/       # skills de diseño (ver su README)
 └── public/
     ├── index.html        # página principal
     ├── gracias.html      # tras enviar el formulario
     ├── 404.html
     ├── favicon.svg
     ├── css/styles.css    # paleta en las variables :root (rojo Terrafirma)
-    ├── js/main.js        # MODS (cotizador) y PROJECTS (galería)
+    ├── js/main.js        # MODS (catálogo), HOTSPOTS (piezas del esquema) y PROJECTS (fotos)
     ├── images/           # logos de Terrafirma y Musmanni's Workshop
     └── fonts/            # Barlow y Barlow Condensed (SIL OFL)
 ```
@@ -48,12 +52,13 @@ dirección de Musmanni's Workshop, teléfono/WhatsApp, correo y horario. Reempl�
 | Qué | Dónde |
 | --- | --- |
 | Textos, categorías de accesorios, kits | `public/index.html` |
-| Lista de accesorios del cotizador | `MODS` en `public/js/main.js` |
-| Proyectos de la galería | `PROJECTS` en `public/js/main.js` |
-| Colores | variables `:root` en `public/css/styles.css` (`--accent` y `--btn` son el rojo) |
+| Catálogo de "Mi lista" | `MODS` en `public/js/main.js` |
+| Piezas tocables del esquema y su posición | `HOTSPOTS` en `public/js/main.js` y el `<svg class="rig">` de `public/index.html` (`data-part` debe coincidir con el `id` de `MODS`) |
+| Fotos de proyectos | `PROJECTS` en `public/js/main.js` |
+| Colores y tipografía | variables `:root` en `public/css/styles.css` (`--red` rellena, `--red-text` para texto); ver `DESIGN.md` |
 | Logos | `public/images/` |
 
-**Fotos reales de proyectos:** copia las imágenes a `public/images/` y añade `img: '/images/mi-foto.jpg'` al proyecto correspondiente en `PROJECTS`. Mientras no tenga `img`, se muestra una silueta marcada como «Ejemplo».
+**Fotos reales de proyectos:** copia las imágenes a `public/images/` y añade una entrada a `PROJECTS`, por ejemplo `{ img: '/images/hilux.jpg', alt: 'Toyota Hilux con snorkel y portaequipajes' }`. La sección **Proyectos** y su enlace del menú aparecen solos en cuanto haya al menos una.
 
 **Precios:** el sitio no muestra precios; todo se cotiza por vehículo.
 

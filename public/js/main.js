@@ -1,5 +1,7 @@
 /* Terrafirma Costa Rica · interacciones del sitio
-   Edita MODS (lista del cotizador) y PROJECTS (galería) para personalizar el contenido. */
+   La lista de accesorios (casillas de "Mi lista") es la única fuente de verdad:
+   el esquema del hero, los chips, el resumen y el formulario se derivan de ella.
+   Edita MODS (catálogo), HOTSPOTS (piezas del esquema) y PROJECTS (fotos reales). */
 (() => {
   'use strict';
 
@@ -46,16 +48,22 @@
     ]},
   ];
 
-  // Proyectos de la galería. Para usar fotos reales agrega `img: '/images/archivo.jpg'`
-  // (coloca los archivos en public/images/). Sin `img` se muestra una silueta de ejemplo.
-  const PROJECTS = [
-    { title: 'Pick-up elevada',        cat: 'suspension', spec: 'Kit de elevación · neumáticos todo terreno', color: '#4f8a43' },
-    { title: '4x4 para la trocha',     cat: 'proteccion', spec: 'Defensas · protector de bajos · estribos',   color: '#c9a66b' },
-    { title: 'SUV de viaje',           cat: 'overland',   spec: 'Portaequipajes · snorkel · luces LED',       color: '#e5e7eb' },
-    { title: 'Expedición con winch',   cat: 'proteccion', spec: 'Winch · puntos de remolque · defensa',       color: '#e0562b' },
-    { title: 'Suspensión de largo recorrido', cat: 'suspension', spec: 'Amortiguadores · resortes · barras',  color: '#5b87b5' },
-    { title: 'Camper overland',        cat: 'overland',   spec: 'Techo · iluminación · almacenaje',           color: '#8e6bbf' },
+  // Piezas tocables del esquema. `id` debe existir en MODS y coincidir con data-part / data-for del SVG.
+  // x e y están en las unidades del viewBox (1000 x 420) y colocan la etiqueta en pantallas anchas.
+  const HOTSPOTS = [
+    { id: 'rack',    label: 'Portaequipajes', x: 300, y: 20 },
+    { id: 'led',     label: 'Barra LED',      x: 472, y: 20 },
+    { id: 'snork',   label: 'Snorkel',        x: 640, y: 20 },
+    { id: 'elev',    label: 'Elevación',      x: 170, y: 392 },
+    { id: 'at',      label: 'Neumáticos',     x: 330, y: 392 },
+    { id: 'rock',    label: 'Estribos',       x: 500, y: 392 },
+    { id: 'def-del', label: 'Defensa',        x: 690, y: 392 },
+    { id: 'winch',   label: 'Winch',          x: 850, y: 392 },
   ];
+
+  // Fotos reales de instalaciones. Mientras esté vacío, la sección "Proyectos" permanece oculta.
+  // Ejemplo: { img: '/images/hilux-snorkel.jpg', alt: 'Toyota Hilux con snorkel y portaequipajes instalados' }
+  const PROJECTS = [];
 
   /* ------------------------------------------------------------------ *
    * Utilidades
@@ -90,7 +98,7 @@
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
 
   /* ------------------------------------------------------------------ *
-   * Cotizador (lista de accesorios)
+   * Mi lista (casillas = fuente de verdad)
    * ------------------------------------------------------------------ */
   const modsBox = $('#mods');
   const sumList = $('#sum-list');
@@ -102,33 +110,92 @@
   const configField = $('#configuracion');
   const catalog = new Map();
 
-  MODS.forEach(({ cat, items }) => {
-    const group = el('fieldset', { class: 'mod-group' }, el('legend', { text: cat }));
+  MODS.forEach(({ cat, items }, gi) => {
+    const row = el('div', { class: 'mod-row', role: 'group', 'aria-labelledby': `cat-${gi}` },
+      el('p', { class: 'mod-cat', id: `cat-${gi}`, text: cat }));
+    const chips = el('div', { class: 'mod-chips' });
     items.forEach((item) => {
       catalog.set(item.id, { ...item, cat });
       const input = el('input', { type: 'checkbox', value: item.id, name: 'mod' });
-      group.append(el('label', { class: 'mod' }, input, el('span', { class: 'mod-name', text: item.name })));
+      chips.append(el('label', { class: 'chip' }, input, el('span', { text: item.name })));
     });
-    modsBox.append(group);
+    row.append(chips);
+    modsBox.append(row);
   });
 
+  const box = (id) => $(`input[name="mod"][value="${id}"]`, modsBox);
   const selected = () => $$('input[name="mod"]:checked', modsBox).map((i) => catalog.get(i.value));
   const summaryText = (list) => list.map((m) => `- ${m.name} (${m.cat})`).join('\n');
 
-  const renderSummary = () => {
+  /* ------------------------------------------------------------------ *
+   * Hero: esquema tocable
+   * ------------------------------------------------------------------ */
+  const rig = $('.rig');
+  const hotspotsBox = $('#hotspots');
+  const heroChips = $('#hero-chips');
+  const heroCount = $('#hero-count');
+  const bodyGroup = $('#body-group');
+  const hsButtons = new Map();   // id -> [botón sobre el esquema, chip móvil]
+
+  const peek = (id, on) => {
+    $$(`[data-part="${id}"], [data-for="${id}"]`, rig).forEach((n) => n.classList.toggle('peek', on));
+  };
+  const flip = (id) => {
+    const input = box(id);
+    if (!input) return;
+    input.checked = !input.checked;
+    renderAll();
+  };
+
+  HOTSPOTS.forEach((h, i) => {
+    const hs = el('button', { class: 'hs', type: 'button', 'aria-pressed': 'false', style: `--x:${h.x};--y:${h.y};--i:${i}` },
+      el('span', { text: h.label }));
+    const pick = el('button', { class: 'pick', type: 'button', 'aria-pressed': 'false' }, el('span', { text: h.label }));
+    [hs, pick].forEach((b) => {
+      b.addEventListener('click', () => flip(h.id));
+      b.addEventListener('pointerenter', () => peek(h.id, true));
+      b.addEventListener('pointerleave', () => peek(h.id, false));
+      b.addEventListener('focus', () => peek(h.id, true));
+      b.addEventListener('blur', () => peek(h.id, false));
+    });
+    hotspotsBox.append(hs);
+    heroChips.append(el('li', {}, pick));
+    hsButtons.set(h.id, [hs, pick]);
+  });
+
+  // En pantallas angostas se recorta el esquema a la silueta (sin la fila de etiquetas)
+  const wide = window.matchMedia('(min-width: 1000px)');
+  const setView = () => rig.setAttribute('viewBox', wide.matches ? '0 0 1000 420' : '110 36 780 320');
+  setView();
+  wide.addEventListener('change', setView);
+
+  /* ------------------------------------------------------------------ *
+   * Render único
+   * ------------------------------------------------------------------ */
+  const renderAll = () => {
     const list = selected();
+    const ids = new Set(list.map((m) => m.id));
+
+    // resumen
     sumList.replaceChildren(...list.map((m) => el('li', { text: m.name })));
     sumEmpty.hidden = list.length > 0;
     sumCount.textContent = String(list.length);
     sendBtn.disabled = list.length === 0;
     clearBtn.hidden = list.length === 0;
     configField.value = summaryText(list);   // viaja siempre con el formulario
+
+    // hero
+    hsButtons.forEach((btns, id) => btns.forEach((b) => b.setAttribute('aria-pressed', String(ids.has(id)))));
+    $$('[data-part]', rig).forEach((p) => p.classList.toggle('on', ids.has(p.dataset.part)));
+    $$('[data-for]', rig).forEach((l) => l.classList.toggle('on', ids.has(l.dataset.for)));
+    bodyGroup.classList.toggle('lifted', ids.has('elev'));
+    heroCount.textContent = `(${list.length})`;
   };
 
-  modsBox.addEventListener('change', renderSummary);
+  modsBox.addEventListener('change', renderAll);
   clearBtn.addEventListener('click', () => {
     $$('input[name="mod"]', modsBox).forEach((i) => { i.checked = false; });
-    renderSummary();
+    renderAll();
   });
 
   const MARK_START = '[Mi lista]';
@@ -149,47 +216,48 @@
     setTimeout(() => $('input[name="nombre"]').focus({ preventScroll: true }), 500);
   });
 
-  // Botones "Cotizar este kit" rellenan el mensaje
-  $$('[data-pack]').forEach((a) => a.addEventListener('click', () => {
-    if (!message.value.trim()) message.value = `Hola, me interesa el kit "${a.dataset.pack}" para mi 4x4. `;
-  }));
-
-  renderSummary();
-
   /* ------------------------------------------------------------------ *
-   * Galería con filtros
+   * Kits (pestañas accesibles) que cargan piezas en la misma lista
    * ------------------------------------------------------------------ */
-  const gallery = $('#gallery');
-  PROJECTS.forEach((p) => {
-    const shot = el('div', { class: 'shot' });
-    if (p.img) {
-      shot.append(el('img', { src: p.img, alt: p.title, loading: 'lazy' }));
-    } else {
-      shot.innerHTML = '<svg viewBox="0 0 640 260" aria-hidden="true"><use href="#rig"/></svg>';
-      shot.append(el('span', { class: 'sample', text: 'Ejemplo' }));
-    }
-    gallery.append(el('figure', { class: 'project reveal', 'data-cat': p.cat, style: `--tile:${p.color};color:${p.color}` },
-      shot,
-      el('figcaption', {}, el('h3', { text: p.title }), el('p', { text: p.spec }))));
+  const tabs = $$('#kit-tabs [role="tab"]');
+  const panels = $$('.panel');
+  const selectTab = (tab, focus = false) => {
+    tabs.forEach((t) => {
+      const on = t === tab;
+      t.setAttribute('aria-selected', String(on));
+      t.tabIndex = on ? 0 : -1;
+    });
+    panels.forEach((p) => { p.hidden = p.id !== tab.getAttribute('aria-controls'); });
+    if (focus) tab.focus();
+  };
+  tabs.forEach((t) => t.addEventListener('click', () => selectTab(t)));
+  $('#kit-tabs').addEventListener('keydown', (e) => {
+    const i = tabs.indexOf(document.activeElement);
+    if (i < 0) return;
+    const last = tabs.length - 1;
+    const next = { ArrowDown: (i + 1) % tabs.length, ArrowRight: (i + 1) % tabs.length,
+                   ArrowUp: (i + last) % tabs.length, ArrowLeft: (i + last) % tabs.length, Home: 0, End: last }[e.key];
+    if (next === undefined) return;
+    e.preventDefault();
+    selectTab(tabs[next], true);
   });
+  selectTab(tabs[0]);
 
-  const chips = $$('.chip');
-  chips.forEach((chip) => chip.addEventListener('click', () => {
-    chips.forEach((c) => c.setAttribute('aria-pressed', String(c === chip)));
-    const f = chip.dataset.filter;
-    $$('.project', gallery).forEach((p) => { p.hidden = !(f === 'todos' || p.dataset.cat === f); });
+  $$('[data-add-kit]').forEach((b) => b.addEventListener('click', () => {
+    b.closest('.panel').dataset.items.split(',').forEach((id) => { const input = box(id); if (input) input.checked = true; });
+    renderAll();
+    $('#cotizador').scrollIntoView({ behavior: 'smooth' });
   }));
 
   /* ------------------------------------------------------------------ *
-   * Animaciones de entrada
+   * Proyectos: solo aparecen si hay fotos reales
    * ------------------------------------------------------------------ */
-  const items = $$('.reveal');
-  if ('IntersectionObserver' in window) {
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-    }, { threshold: 0.12 });
-    items.forEach((n) => io.observe(n));
-  } else {
-    items.forEach((n) => n.classList.add('in'));
+  if (PROJECTS.length) {
+    const gallery = $('#gallery');
+    PROJECTS.forEach((p) => gallery.append(el('img', { src: p.img, alt: p.alt, loading: 'lazy' })));
+    $('#proyectos').hidden = false;
+    $('#nav-proyectos').hidden = false;
   }
+
+  renderAll();
 })();
