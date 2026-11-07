@@ -1,14 +1,15 @@
 <!doctype html>
-<html lang="es">
+<html lang="es-CR">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>APEX Garage · Modificaciones y tuning de autos</title>
-  <meta name="description" content="Taller de modificaciones para autos: reprogramación de ECU, escapes, suspensión, frenos, ruedas y estética. Arma tu proyecto y pide tu presupuesto.">
+  <title>Terrafirma Costa Rica · Accesorios 4x4 e instalación en Musmanni's Workshop</title>
+  <meta name="description" content="Terrafirma Costa Rica: serious 4x4 accessories. Suspensión, defensas, winches, portaequipajes, snorkel e iluminación para tu 4x4, instalados en Musmanni's Workshop. Arma tu lista y pide cotización.">
   <meta name="theme-color" content="#0b0c0f">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="APEX Garage · Modificaciones y tuning de autos">
-  <meta property="og:description" content="Más potencia, mejor manejo, más carácter. Arma tu proyecto y pide tu presupuesto.">
+  <meta property="og:locale" content="es_CR">
+  <meta property="og:title" content="Terrafirma Costa Rica · Serious 4x4 Accessories">
+  <meta property="og:description" content="Accesorios 4x4 instalados en Musmanni's Workshop. Arma tu lista y pide cotización.">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="/fonts/barlow-condensed-700.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/css/styles.css">
@@ -16,50 +17,73 @@
 </head>
 <body>
 
-<!-- Silueta reutilizable del auto (se colorea con "color" / currentColor) -->
+<!-- Siluetas reutilizables: el 4x4 se colorea con "color" (currentColor) -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <defs>
     <g id="wheel">
-      <circle r="40" fill="#0a0a0b"/>
-      <circle r="29" fill="#2b2e35"/>
-      <circle r="25" fill="#c9ced6"/>
-      <g stroke="#2b2e35" stroke-width="5" stroke-linecap="round">
-        <path d="M0 0V-22M0 0L20.9-6.8M0 0L12.9 17.8M0 0L-12.9 17.8M0 0L-20.9-6.8"/>
-      </g>
-      <circle r="7" fill="#8a909c"/>
-      <circle r="2.6" fill="#0a0a0b"/>
+      <circle r="44" fill="#08090b"/>
+      <circle r="40" fill="none" stroke="#242831" stroke-width="7" stroke-dasharray="7 4.4"/>
+      <circle r="31" fill="#14171d"/>
+      <circle r="23" fill="#a3a9b4"/>
+      <circle r="17" fill="none" stroke="#2b2e35" stroke-width="3.5" stroke-dasharray="3.4 5.6"/>
+      <circle r="9" fill="#2b2e35"/>
+      <circle r="5" fill="#8a909c"/>
     </g>
-    <linearGradient id="shine" gradientUnits="userSpaceOnUse" x1="0" y1="46" x2="0" y2="170">
-      <stop offset="0" stop-color="#fff" stop-opacity=".30"/>
-      <stop offset=".45" stop-color="#fff" stop-opacity=".03"/>
-      <stop offset="1" stop-color="#000" stop-opacity=".35"/>
+    <linearGradient id="shine" gradientUnits="userSpaceOnUse" x1="0" y1="72" x2="0" y2="194">
+      <stop offset="0" stop-color="#fff" stop-opacity=".26"/>
+      <stop offset=".4" stop-color="#fff" stop-opacity=".02"/>
+      <stop offset="1" stop-color="#000" stop-opacity=".38"/>
     </linearGradient>
     <path id="body" d="
-      M40 168 L40 140 C40 122 54 116 84 112 L120 108
-      C165 100 205 68 262 57 C310 50 365 50 405 59
-      C435 67 458 87 482 100 L562 114
-      C600 120 610 132 610 150 L610 168
-      L532 168 A52 52 0 0 0 428 168
-      L212 168 A52 52 0 0 0 108 168 Z"/>
-    <symbol id="car" viewBox="0 0 640 230">
-      <ellipse cx="325" cy="212" rx="285" ry="9" fill="#000" opacity=".45"/>
-      <!-- alerón (detrás de la carrocería) -->
-      <path fill="currentColor" stroke="#000" stroke-opacity=".4" stroke-width="1.5" d="M40 112 L46 90 L106 86 L107 94 L64 98 L58 116 Z"/>
+      M58 192 L58 88 Q58 78 68 77 L374 74 L414 122 L592 125
+      Q609 126 611 142 L611 192
+      L532 192 A52 52 0 0 0 428 192
+      L222 192 A52 52 0 0 0 118 192 Z"/>
+
+    <symbol id="rig" viewBox="0 0 640 260">
+      <ellipse cx="325" cy="248" rx="290" ry="8" fill="#000" opacity=".5"/>
+
+      <!-- llanta de repuesto trasera y defensa trasera -->
+      <rect x="34" y="96" width="26" height="74" rx="9" fill="#08090b" stroke="#4a515e" stroke-width="2.5"/>
+      <rect x="38" y="178" width="36" height="14" rx="3" fill="#3a404c" stroke="#5a6272" stroke-width="1.5"/>
+
+      <!-- portaequipajes con barra LED -->
+      <g fill="none" stroke="#5a6272" stroke-width="4" stroke-linecap="round">
+        <path d="M84 52 H356 V66 H84 Z"/>
+        <path d="M120 52V66M156 52V66M192 52V66M228 52V66M264 52V66M300 52V66M332 52V66"/>
+        <path d="M100 66V77M340 66V75"/>
+      </g>
+      <rect x="318" y="42" width="38" height="7" rx="2" fill="#fff6d6"/>
+
+      <!-- carrocería -->
       <use href="#body" fill="currentColor"/>
       <use href="#body" fill="url(#shine)"/>
-      <!-- cristales -->
-      <path fill="#0d1117" opacity=".93" d="M218 90 C232 74 248 65 270 62 C312 58 354 58 394 65 C418 71 438 85 458 99 Z"/>
-      <path stroke="currentColor" stroke-width="5" d="M326 60 L322 98"/>
-      <!-- línea de carácter, manilla y entrada de aire -->
-      <path d="M120 126 C260 136 420 136 556 126" fill="none" stroke="#000" stroke-opacity=".3" stroke-width="3"/>
-      <rect x="360" y="108" width="26" height="5" rx="2.5" fill="#000" opacity=".4"/>
-      <path d="M548 138 L590 142 L590 156 L548 154 Z" fill="#000" opacity=".5"/>
+
+      <!-- cristales y pilares -->
+      <path fill="#0d1117" opacity=".94" d="M84 90 L236 89 L236 128 L84 128 Z"/>
+      <path fill="#0d1117" opacity=".94" d="M252 88 L366 86 L398 122 L252 122 Z"/>
+      <!-- snorkel por el pilar delantero -->
+      <path d="M411 124 L401 64 Q400 58 393 58" fill="none" stroke="#3a404c" stroke-width="8" stroke-linecap="round"/><path d="M411 124 L401 64 Q400 58 393 58" fill="none" stroke="#6b7385" stroke-width="2" stroke-linecap="round"/>
+
+      <!-- línea de cintura, manilla -->
+      <path d="M58 138 H611" stroke="#000" stroke-opacity=".28" stroke-width="3"/>
+      <rect x="332" y="146" width="24" height="5" rx="2.5" fill="#000" opacity=".4"/>
+
+      <!-- estribos / rock sliders -->
+      <rect x="232" y="188" width="188" height="10" rx="5" fill="#3a404c" stroke="#5a6272" stroke-width="1.5"/>
+
+      <!-- defensa delantera con winch y gancho -->
+      <path fill="#2e333e" stroke="#5a6272" stroke-width="1.5" d="M596 156 H624 V196 H606 Q596 196 596 186 Z"/>
+      <rect x="605" y="168" width="15" height="11" rx="2" fill="#7a8394"/>
+      <rect x="613" y="186" width="9" height="6" rx="1.5" fill="#ee2626"/>
+
       <!-- luces -->
-      <path fill="#ff2b2b" d="M41 124 H66 L62 132 H41 Z"/>
-      <path fill="#fff6d6" d="M566 122 C592 122 606 128 608 140 L558 134 Z"/>
+      <rect x="60" y="148" width="8" height="22" rx="2" fill="#ff2b2b"/>
+      <rect x="594" y="132" width="13" height="13" rx="3" fill="#fff6d6"/>
+
       <!-- ruedas -->
-      <use href="#wheel" x="160" y="168"/>
-      <use href="#wheel" x="480" y="168"/>
+      <use href="#wheel" x="170" y="200"/>
+      <use href="#wheel" x="480" y="200"/>
     </symbol>
   </defs>
 </svg>
@@ -68,20 +92,19 @@
 
 <header class="site-header">
   <div class="wrap bar">
-    <a class="brand" href="#inicio" aria-label="APEX Garage, inicio">
-      <svg viewBox="0 0 32 32" width="30" height="30" aria-hidden="true"><path d="M3 24 16 5l13 19h-6.5L16 14.6 9.5 24z" fill="currentColor"/></svg>
-      <span>APEX <b>Garage</b></span>
+    <a class="brand" href="#inicio" aria-label="Terrafirma Costa Rica, inicio">
+      <img src="/images/terrafirma-logo-white.png" alt="Terrafirma Costa Rica · Serious 4x4 Accessories" width="338" height="128">
     </a>
     <button class="nav-toggle" aria-expanded="false" aria-controls="menu" aria-label="Abrir menú">
       <span></span><span></span><span></span>
     </button>
     <nav id="menu" class="nav" aria-label="Principal">
-      <a href="#servicios">Servicios</a>
-      <a href="#packs">Packs</a>
+      <a href="#accesorios">Accesorios</a>
+      <a href="#kits">Kits</a>
+      <a href="#instalacion">Instalación</a>
       <a href="#cotizador">Cotizador</a>
       <a href="#proyectos">Proyectos</a>
-      <a href="#proceso">Proceso</a>
-      <a class="btn btn-sm" href="#contacto">Pedir presupuesto</a>
+      <a class="btn btn-sm" href="#contacto">Pedir cotización</a>
     </nav>
   </div>
 </header>
@@ -90,151 +113,179 @@
 
   <!-- HERO -->
   <section id="inicio" class="hero">
+  <svg class="terrain" viewBox="0 0 1440 160" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 160V96L120 62L220 92L360 36L500 100L620 58L760 112L900 52L1040 104L1180 46L1300 88L1440 60V160Z" fill="#12151b"/>
+    <path d="M0 160V122L160 96L300 126L460 84L620 130L800 94L960 132L1120 92L1280 128L1440 100V160Z" fill="#171b23"/>
+  </svg>
     <div class="wrap hero-grid">
       <div class="hero-copy">
-        <p class="eyebrow">Taller de performance &amp; estética</p>
-        <h1>Tu auto.<br>Tus reglas.<br><span class="accent">Más carácter.</span></h1>
-        <p class="lead">Reprogramación, escapes, suspensión, frenos y ruedas. Diseñamos cada proyecto a tu medida y lo validamos en el dinamómetro antes de entregarlo.</p>
+        <p class="eyebrow">Terrafirma Costa Rica · Serious 4x4 Accessories</p>
+        <h1>Equipa tu 4x4.<br><span class="accent">Ve más lejos.</span></h1>
+        <p class="lead">Accesorios Terrafirma para 4x4 y pick-ups, instalados en Musmanni's Workshop. Cuéntanos cómo usas tu vehículo y armamos tu cotización.</p>
         <div class="cta-row">
-          <a class="btn" href="#cotizador">Arma tu proyecto</a>
-          <a class="btn btn-ghost" href="#servicios">Ver servicios</a>
+          <a class="btn" href="#cotizador">Arma tu lista</a>
+          <a class="btn btn-ghost" href="#accesorios">Ver accesorios</a>
         </div>
         <ul class="pillars" aria-label="Por qué elegirnos">
-          <li><strong>Dinamómetro</strong><span>Medimos antes y después</span></li>
-          <li><strong>Piezas certificadas</strong><span>Marcas con respaldo</span></li>
-          <li><strong>Garantía escrita</strong><span>En piezas y mano de obra</span></li>
+          <li><strong>Terrafirma</strong><span>Equipamiento 4x4 serio</span></li>
+          <li><strong>Instalación</strong><span>En Musmanni's Workshop</span></li>
+          <li><strong>Asesoría</strong><span>Según cómo uses tu 4x4</span></li>
         </ul>
       </div>
       <div class="hero-art" aria-hidden="true">
         <div class="glow"></div>
-        <svg class="hero-car" viewBox="0 0 640 230" style="color:#ff4d1c"><use href="#car"/></svg>
-        <div class="road"></div>
+        <svg class="hero-car" viewBox="0 0 640 260" style="color:#4f8a43"><use href="#rig"/></svg>
       </div>
     </div>
   </section>
 
-  <!-- SERVICIOS -->
-  <section id="servicios" class="section">
+  <!-- ACCESORIOS -->
+  <section id="accesorios" class="section">
     <div class="wrap">
       <header class="section-head reveal">
-        <p class="eyebrow">Servicios</p>
-        <h2>Todo lo que tu auto necesita para dar más</h2>
-        <p>Desde un ajuste fino hasta una transformación completa. Elige una mejora o combínalas en un solo proyecto.</p>
+        <p class="eyebrow">Accesorios</p>
+        <h2>Todo para preparar tu 4x4</h2>
+        <p>Desde una mejora puntual hasta un vehículo de expedición completo. Elige una categoría o combínalas en un solo proyecto.</p>
       </header>
 
       <div class="cards">
         <article class="card reveal">
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2"/><rect x="10" y="10" width="4" height="4"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/></svg>
-          <h3>Motor y ECU</h3>
-          <p>Reprogramación, filtros de alto flujo, intercoolers y mejoras de admisión para ganar potencia de forma segura.</p>
-        </article>
-        <article class="card reveal">
           <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v4M7 6l10 2.5L7 11l10 2.5L7 16l10 2.5M12 18.5V22"/></svg>
-          <h3>Suspensión y chasis</h3>
-          <p>Coilovers, resortes deportivos, barras estabilizadoras y alineación para un manejo firme y preciso.</p>
+          <h3>Suspensión y elevación</h3>
+          <p>Kits de elevación, amortiguadores y resortes para ganar altura libre y control en terreno difícil.</p>
         </article>
         <article class="card reveal">
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg>
-          <h3>Frenos</h3>
-          <p>Discos ranurados, pastillas deportivas, mangueras trenzadas y kits de big brake para frenar a la altura.</p>
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg>
+          <h3>Defensas y protección</h3>
+          <p>Defensas, protectores de bajos y estribos tipo rock slider para cuidar tu vehículo en la trocha.</p>
         </article>
         <article class="card reveal">
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12h8"/><path d="M10 8h8l3-2v12l-3-2h-8z"/></svg>
-          <h3>Escapes</h3>
-          <p>Downpipes, catback y sistemas de válvulas con el sonido que buscas, sin sacrificar el uso diario.</p>
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="8" width="13" height="8" rx="2"/><path d="M7 8v8M11 8v8M16 12h5M21 12v3"/></svg>
+          <h3>Winches y recuperación</h3>
+          <p>Winches, puntos de remolque y equipo de recuperación para salir de cualquier atasco.</p>
         </article>
         <article class="card reveal">
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2"/><path d="M12 3v7M12 14v7M3.4 9.2l6.6 2.2M14 12.6l6.6 2.2M5.5 18l4.6-5M13.9 11l4.6-5"/></svg>
-          <h3>Ruedas y neumáticos</h3>
-          <p>Rines forjados o ligeros, neumáticos de alto agarre y balanceo de precisión para cada uso.</p>
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h18v6H3zM7 8V5M17 8V5M7 14v3M17 14v3M9 8v6M12 8v6M15 8v6"/></svg>
+          <h3>Techo y carga</h3>
+          <p>Portaequipajes, barras y soportes para llevar todo lo que necesitas en tu expedición.</p>
         </article>
         <article class="card reveal">
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/><path d="M9.5 15a2.5 2.5 0 0 0 2.5 2.5"/></svg>
-          <h3>Estética y exterior</h3>
-          <p>Wrap, pintura, kits aerodinámicos, iluminación LED y detalles de interior para un look inconfundible.</p>
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 21V8a4 4 0 0 1 4-4h5v4h-4a1 1 0 0 0-1 1v12"/></svg>
+          <h3>Snorkel y admisión</h3>
+          <p>Snorkel para tomar aire limpio y cruzar ríos y zonas de agua con más confianza.</p>
+        </article>
+        <article class="card reveal">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="9" width="12" height="6" rx="1.5"/><path d="M18 8l3-2M18 12h3M18 16l3 2"/></svg>
+          <h3>Iluminación</h3>
+          <p>Barras LED, faros auxiliares y luces de trabajo para ver más lejos de noche.</p>
         </article>
       </div>
+      <p class="fineprint">La compatibilidad y disponibilidad dependen de la marca, modelo y año de tu vehículo. Consúltanos antes de decidir.</p>
     </div>
   </section>
 
-  <!-- PACKS -->
-  <section id="packs" class="section alt">
+  <!-- KITS -->
+  <section id="kits" class="section alt">
     <div class="wrap">
       <header class="section-head reveal">
-        <p class="eyebrow">Packs</p>
-        <h2>Elige tu nivel</h2>
-        <p>Paquetes pensados para que cada pieza trabaje en conjunto. Los precios son referenciales y varían según el modelo.</p>
+        <p class="eyebrow">Kits sugeridos</p>
+        <h2>Equipa según cómo lo usas</h2>
+        <p>Combinaciones recomendadas para cada tipo de uso. La lista final y la cotización se ajustan a tu vehículo.</p>
       </header>
 
       <div class="packs">
         <article class="pack reveal">
-          <h3>Stage 1</h3>
-          <p class="pack-tag">Calle optimizado</p>
-          <p class="price"><small>desde</small> <span data-price="890">$890</span></p>
+          <h3>Trocha y diario</h3>
+          <p class="pack-tag">Protección para el día a día</p>
           <ul>
-            <li>Reprogramación de ECU a medida</li>
-            <li>Filtro de aire de alto flujo</li>
-            <li>Prueba en dinamómetro</li>
-            <li>Garantía de 12 meses</li>
+            <li>Protector de bajos</li>
+            <li>Estribos o rock sliders</li>
+            <li>Iluminación auxiliar</li>
+            <li>Amortiguadores mejorados</li>
           </ul>
-          <a class="btn btn-ghost" href="#contacto" data-pack="Stage 1">Pedir Stage 1</a>
+          <a class="btn btn-ghost" href="#contacto" data-pack="Trocha y diario">Cotizar este kit</a>
         </article>
 
         <article class="pack featured reveal">
-          <span class="badge">Más elegido</span>
-          <h3>Stage 2</h3>
-          <p class="pack-tag">Deportivo completo</p>
-          <p class="price"><small>desde</small> <span data-price="2490">$2,490</span></p>
+          <h3>Overland y viajes</h3>
+          <p class="pack-tag">Para rutas largas y cargadas</p>
           <ul>
-            <li>Todo lo del Stage 1</li>
-            <li>Downpipe y escape catback</li>
-            <li>Intercooler de mayor capacidad</li>
-            <li>Suspensión deportiva</li>
-            <li>Garantía de 12 meses</li>
+            <li>Kit de elevación</li>
+            <li>Portaequipajes de techo</li>
+            <li>Snorkel</li>
+            <li>Barra LED y faros auxiliares</li>
+            <li>Neumáticos todo terreno</li>
           </ul>
-          <a class="btn" href="#contacto" data-pack="Stage 2">Pedir Stage 2</a>
+          <a class="btn" href="#contacto" data-pack="Overland y viajes">Cotizar este kit</a>
         </article>
 
         <article class="pack reveal">
-          <h3>Stage 3</h3>
-          <p class="pack-tag">Pista y proyecto extremo</p>
-          <p class="price"><small>desde</small> <span data-price="5900">$5,900</span></p>
+          <h3>Expedición</h3>
+          <p class="pack-tag">Off-road exigente</p>
           <ul>
-            <li>Todo lo del Stage 2</li>
-            <li>Turbo o supercargador mejorado</li>
-            <li>Frenos de alto rendimiento</li>
-            <li>Ruedas ligeras y neumáticos semi-slick</li>
-            <li>Puesta a punto en pista</li>
+            <li>Defensas reforzadas con winch</li>
+            <li>Puntos de remolque y recuperación</li>
+            <li>Suspensión de largo recorrido</li>
+            <li>Protección completa de bajos</li>
+            <li>Equipo de recuperación</li>
           </ul>
-          <a class="btn btn-ghost" href="#contacto" data-pack="Stage 3">Pedir Stage 3</a>
+          <a class="btn btn-ghost" href="#contacto" data-pack="Expedición">Cotizar este kit</a>
         </article>
       </div>
-      <p class="fineprint">* Las ganancias de potencia y el precio final dependen del modelo, el estado del vehículo y el combustible. Todo se confirma con un diagnóstico previo.</p>
+    </div>
+  </section>
+
+  <!-- INSTALACIÓN -->
+  <section id="instalacion" class="section">
+    <div class="wrap">
+      <div class="install">
+        <div class="install-logo reveal">
+          <img src="/images/musmannis-workshop.webp" alt="Logo de Musmanni's Workshop" width="900" height="726" loading="lazy">
+        </div>
+        <div class="install-copy reveal">
+          <p class="eyebrow">Instalación</p>
+          <h2>Instalados en Musmanni's Workshop</h2>
+          <p class="lead-sm">Los accesorios Terrafirma se instalan en Musmanni's Workshop, el taller donde tu 4x4 queda listo para la trocha.</p>
+          <ul class="checks">
+            <li>Montaje profesional de accesorios Terrafirma</li>
+            <li>Revisión final antes de la entrega</li>
+            <li>Todo el proyecto coordinado en un solo lugar</li>
+          </ul>
+          <a class="btn" href="#contacto">Agenda tu instalación</a>
+        </div>
+      </div>
+
+      <ol class="steps">
+        <li class="reveal"><span class="num">01</span><h3>Asesoría</h3><p>Hablamos de tu vehículo y de cómo lo usas: trocha, viajes, trabajo o expedición.</p></li>
+        <li class="reveal"><span class="num">02</span><h3>Cotización</h3><p>Te enviamos la lista de accesorios recomendada con su cotización.</p></li>
+        <li class="reveal"><span class="num">03</span><h3>Instalación</h3><p>Instalamos los accesorios en Musmanni's Workshop.</p></li>
+        <li class="reveal"><span class="num">04</span><h3>Entrega</h3><p>Revisión final y entrega de tu 4x4 listo para salir.</p></li>
+      </ol>
     </div>
   </section>
 
   <!-- COTIZADOR -->
-  <section id="cotizador" class="section">
+  <section id="cotizador" class="section alt">
     <div class="wrap">
       <header class="section-head reveal">
         <p class="eyebrow">Cotizador</p>
-        <h2>Arma tu proyecto y calcula un estimado</h2>
-        <p>Marca las mejoras que te interesan. Al final puedes enviarnos tu selección con un clic.</p>
+        <h2>Arma tu lista de accesorios</h2>
+        <p>Marca lo que te interesa y envíanos la lista con un clic. Te respondemos con la cotización para tu vehículo.</p>
       </header>
 
       <div class="builder">
         <div id="mods" class="mods" aria-live="polite"><!-- generado por js/main.js --></div>
 
         <aside class="summary" aria-labelledby="sum-title">
-          <h3 id="sum-title">Tu configuración</h3>
+          <h3 id="sum-title">Tu lista</h3>
           <ul id="sum-list" class="sum-list"></ul>
           <p id="sum-empty" class="sum-empty">Aún no has elegido nada. Marca opciones a la izquierda.</p>
           <div class="sum-total">
-            <span>Estimado</span>
-            <strong id="sum-total">$0</strong>
+            <span>Artículos</span>
+            <strong id="sum-count">0</strong>
           </div>
-          <p class="fineprint">Precio de piezas e instalación, referencial. IVA/impuestos no incluidos.</p>
-          <button id="sum-send" class="btn btn-block" type="button" disabled>Solicitar presupuesto</button>
+          <p class="fineprint">La cotización final depende de tu vehículo, de la disponibilidad y de la instalación.</p>
+          <button id="sum-send" class="btn btn-block" type="button" disabled>Solicitar cotización</button>
           <button id="sum-clear" class="link-btn" type="button" hidden>Limpiar selección</button>
         </aside>
       </div>
@@ -242,38 +293,22 @@
   </section>
 
   <!-- PROYECTOS -->
-  <section id="proyectos" class="section alt">
+  <section id="proyectos" class="section">
     <div class="wrap">
       <header class="section-head reveal">
         <p class="eyebrow">Proyectos</p>
-        <h2>Así se ve el trabajo terminado</h2>
-        <p>Filtra por tipo de proyecto. Las siluetas son de ejemplo: sustitúyelas por fotos reales de tu taller.</p>
+        <h2>Así puede quedar tu 4x4</h2>
+        <p>Configuraciones de ejemplo, por tipo de proyecto. Aquí iremos sumando fotos de trabajos reales.</p>
       </header>
 
       <div class="filters" role="group" aria-label="Filtrar proyectos">
         <button class="chip" type="button" data-filter="todos" aria-pressed="true">Todos</button>
-        <button class="chip" type="button" data-filter="rendimiento" aria-pressed="false">Rendimiento</button>
         <button class="chip" type="button" data-filter="suspension" aria-pressed="false">Suspensión</button>
-        <button class="chip" type="button" data-filter="estetica" aria-pressed="false">Estética</button>
+        <button class="chip" type="button" data-filter="proteccion" aria-pressed="false">Protección</button>
+        <button class="chip" type="button" data-filter="overland" aria-pressed="false">Overland</button>
       </div>
 
       <div id="gallery" class="gallery"><!-- generado por js/main.js --></div>
-    </div>
-  </section>
-
-  <!-- PROCESO -->
-  <section id="proceso" class="section">
-    <div class="wrap">
-      <header class="section-head reveal">
-        <p class="eyebrow">Proceso</p>
-        <h2>Cómo trabajamos</h2>
-      </header>
-      <ol class="steps">
-        <li class="reveal"><span class="num">01</span><h3>Diagnóstico</h3><p>Revisamos el estado de tu auto y definimos juntos el objetivo: calle, pista o show.</p></li>
-        <li class="reveal"><span class="num">02</span><h3>Plan y presupuesto</h3><p>Te proponemos piezas, orden de instalación y un presupuesto cerrado, sin sorpresas.</p></li>
-        <li class="reveal"><span class="num">03</span><h3>Instalación</h3><p>Montaje con herramienta adecuada y torque documentado en cada tornillo clave.</p></li>
-        <li class="reveal"><span class="num">04</span><h3>Pruebas y entrega</h3><p>Dinamómetro, prueba de ruta y revisión final. Te entregamos todo por escrito.</p></li>
-      </ol>
     </div>
   </section>
 
@@ -282,13 +317,13 @@
     <div class="wrap contact-grid">
       <div class="reveal">
         <p class="eyebrow">Contacto</p>
-        <h2>Cuéntanos tu proyecto</h2>
-        <p class="lead-sm">Responde con tus datos y el auto que quieres modificar. Te contestamos en menos de 24 horas hábiles.</p>
+        <h2>Cuéntanos de tu 4x4</h2>
+        <p class="lead-sm">Escríbenos con tu vehículo y lo que quieres instalar. Te respondemos lo antes posible.</p>
         <dl class="info">
-          <div><dt>Dirección</dt><dd>Calle Ejemplo 123, Tu Ciudad</dd></div>
-          <div><dt>Teléfono / WhatsApp</dt><dd>+00 000 000 0000</dd></div>
-          <div><dt>Correo</dt><dd>hola@tudominio.com</dd></div>
-          <div><dt>Horario</dt><dd>Lun a Vie 9:00–18:00 · Sáb 9:00–13:00</dd></div>
+          <div><dt>Instalación</dt><dd>Musmanni's Workshop · dirección por confirmar</dd></div>
+          <div><dt>Teléfono / WhatsApp</dt><dd>Por confirmar</dd></div>
+          <div><dt>Correo</dt><dd>Por confirmar</dd></div>
+          <div><dt>Horario</dt><dd>Por confirmar</dd></div>
         </dl>
       </div>
 
@@ -308,12 +343,21 @@
           <label>Teléfono / WhatsApp
             <input type="tel" name="telefono" autocomplete="tel">
           </label>
-          <label>Auto (marca, modelo, año)
-            <input type="text" name="auto" placeholder="Ej. Honda Civic Type R 2020" required>
+          <label>Vehículo (marca, modelo, año)
+            <input type="text" name="vehiculo" placeholder="Ej. Toyota Hilux 2018" required>
           </label>
         </div>
+        <label>Uso principal
+          <select name="uso">
+            <option value="">Selecciona una opción</option>
+            <option>Diario y trocha ocasional</option>
+            <option>Overland y viajes</option>
+            <option>Trabajo y carga</option>
+            <option>Off-road exigente / expedición</option>
+          </select>
+        </label>
         <label>Mensaje
-          <textarea id="mensaje" name="mensaje" rows="6" placeholder="¿Qué quieres lograr con tu auto?" required></textarea>
+          <textarea id="mensaje" name="mensaje" rows="6" placeholder="¿Qué te gustaría instalar en tu 4x4?" required></textarea>
         </label>
         <input type="hidden" id="configuracion" name="configuracion" value="">
         <button class="btn btn-block" type="submit">Enviar solicitud</button>
@@ -327,10 +371,10 @@
 <footer class="site-footer">
   <div class="wrap foot">
     <a class="brand" href="#inicio" aria-label="Volver arriba">
-      <svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true"><path d="M3 24 16 5l13 19h-6.5L16 14.6 9.5 24z" fill="currentColor"/></svg>
-      <span>APEX <b>Garage</b></span>
+      <img src="/images/terrafirma-logo-white.png" alt="Terrafirma Costa Rica" width="338" height="128" loading="lazy">
     </a>
-    <p>© <span id="year">2026</span> APEX Garage. Todos los derechos reservados.</p>
+    <p>Instalación en Musmanni's Workshop</p>
+    <p>© <span id="year">2026</span> Terrafirma Costa Rica. Todos los derechos reservados.</p>
   </div>
 </footer>
 
