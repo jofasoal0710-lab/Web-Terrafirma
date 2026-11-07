@@ -58,7 +58,13 @@ dirección de Musmanni's Workshop, teléfono/WhatsApp, correo y horario. Reempl�
 | Colores y tipografía | variables `:root` en `public/css/styles.css` (`--red` rellena, `--red-text` para texto); ver `DESIGN.md` |
 | Logos | `public/images/` |
 
-**Fotos reales de proyectos:** copia las imágenes a `public/images/` y añade una entrada a `PROJECTS`, por ejemplo `{ img: '/images/hilux.jpg', alt: 'Toyota Hilux con snorkel y portaequipajes' }`. La sección **Proyectos** y su enlace del menú aparecen solos en cuanto haya al menos una.
+**Fotos reales de proyectos:** copia las imágenes a `public/images/proyectos/` (JPG o WebP, idealmente de unos 1600 px de ancho y menos de 300 KB cada una) y añade una entrada a `PROJECTS` en `public/js/main.js`:
+
+```js
+{ img: '/images/proyectos/hilux.jpg', alt: 'Toyota Hilux con snorkel y portaequipajes', size: 'wide' }
+```
+
+`size` es opcional (`'wide'` o `'tall'`) y da ritmo al mosaico. La sección **Proyectos**, su visor ampliado y el enlace del menú aparecen solos en cuanto haya al menos una foto. Antes de publicar una foto, confirma que tienes derecho a usarla y que no muestra placas, rostros o datos de clientes sin su permiso.
 
 **Precios:** el sitio no muestra precios; todo se cotiza por vehículo.
 

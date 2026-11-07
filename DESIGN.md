@@ -3,7 +3,7 @@
 Sistema vigente en `public/css/styles.css`. Revisado con las guías de Impeccable, `frontend-design`, Emil Kowalski y Motion Design.
 
 ## Idea central
-El hero **es la herramienta**: un esquema técnico del 4x4 donde cada accesorio se toca para añadirlo a la lista. La lista (las casillas de "Mi lista") es la única fuente de verdad; el esquema, los chips, el resumen y el formulario se derivan de ella. Todo lo demás apoya esa acción.
+El hero **es la herramienta**: un esquema técnico del 4x4 donde cada accesorio se toca para añadirlo a la lista. La lista (las casillas de "Mi lista") es la única fuente de verdad; el esquema, los chips, el resumen y el formulario se derivan de ella. Cada uno de los 21 accesorios del catálogo tiene su pieza en el esquema, y ese mismo dibujo se reutiliza en el catálogo y en los kits. Todo lo demás apoya esa acción.
 
 ## Color
 Neutros puros, sin tinte (negro y blanco de la marca) y un solo acento, el rojo de la "M" del logo.
@@ -31,11 +31,17 @@ Neutros puros, sin tinte (negro y blanco de la marca) y un solo acento, el rojo 
 - Los números 1–4 solo aparecen en "Cómo trabajamos", porque es una secuencia real.
 
 ## Movimiento (personalidad: precisa y rápida, sin rebote)
-- **Un solo momento autorado:** al cargar, el esquema se dibuja (1,1 s) y las etiquetas entran en cascada (45 ms entre ellas).
-- Todo lo demás responde a una acción: pulsar (`scale .97`, 140 ms), activar una pieza (color y relleno, 220 ms), elevar la suspensión (el 4x4 sube 14 px, 260 ms).
-- Curva única: `cubic-bezier(0.23, 1, 0.32, 1)` (ease-out fuerte). Sin `ease-in`, sin `transition: all`, nada parte de `scale(0)`.
-- Efectos `hover` solo con `(hover: hover) and (pointer: fine)`. Con `prefers-reduced-motion` no hay animaciones.
-- Sin animaciones de entrada por scroll ni tarjetas que se elevan.
+**Lenguaje:** *un plano técnico que se dibuja.* Primero se trazan las líneas y después entra el contenido. Es el mismo gesto en todo el sitio, así que no es una entrada idéntica por sección sino una sola idea con distintos materiales.
+
+- **Hero:** el esquema se dibuja al cargar (1,1 s) y las etiquetas entran en cascada (45 ms entre ellas). Después, un movimiento ambiental muy lento (el suelo avanza y el dibujo de los neumáticos gira), solo mientras el hero está en pantalla y nunca con `prefers-reduced-motion`.
+- **Catálogo:** un esquema fijo a la izquierda ilumina las piezas de la categoría que se está leyendo (seguimiento del scroll). Los divisores se dibujan de izquierda a derecha y luego aparece el texto.
+- **Kits:** al elegir un kit, sus piezas se encienden una a una (70 ms entre piezas) y, si incluye elevación, el vehículo sube. Es movimiento que explica qué añade cada kit.
+- **Instalación:** el logo se revela con un recorte vertical; las líneas de los pasos se dibujan.
+- **Respuesta a acciones:** pulsar (`scale .97`, 140 ms), activar una pieza (color y relleno, 220 ms), elevar la suspensión (el 4x4 sube 14 px, 260 ms).
+- **Galería de fotos reales (cuando exista):** mosaico con revelado por recorte, zoom 1,03 dentro del marco al pasar el cursor y visor ampliado con teclado.
+- Curva única: `cubic-bezier(0.23, 1, 0.32, 1)` (ease-out fuerte). Sin `ease-in`, sin `transition: all`, nada parte de `scale(0)`. Efectos `hover` solo con `(hover: hover) and (pointer: fine)`.
+- **Con `prefers-reduced-motion` no hay animaciones** y todo aparece en su estado final.
+- Nota técnica: el recorte de revelado se aplica a la *imagen hija*, nunca al contenedor que observa el `IntersectionObserver` (un contenedor totalmente recortado nunca cuenta como visible).
 
 ## Superficies del navegador
 Selección de texto roja, cursor (`caret-color`) rojo, barra de desplazamiento oscura, anillo de foco rojo con desplazamiento, cifras tabulares en contadores.

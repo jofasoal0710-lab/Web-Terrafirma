@@ -62,7 +62,8 @@
   ];
 
   // Fotos reales de instalaciones. Mientras esté vacío, la sección "Proyectos" permanece oculta.
-  // Ejemplo: { img: '/images/hilux-snorkel.jpg', alt: 'Toyota Hilux con snorkel y portaequipajes instalados' }
+  // { img: '/images/proyectos/hilux.jpg', alt: 'Toyota Hilux con snorkel y portaequipajes', size: 'wide' }
+  // `size` es opcional: 'wide' (ocupa más ancho) o 'tall' (ocupa más alto) para dar ritmo al mosaico.
   const PROJECTS = [];
 
   /* ------------------------------------------------------------------ *
@@ -134,11 +135,16 @@
   const hotspotsBox = $('#hotspots');
   const heroChips = $('#hero-chips');
   const heroCount = $('#hero-count');
-  const bodyGroup = $('#body-group');
   const hsButtons = new Map();   // id -> [botón sobre el esquema, chip móvil]
 
+  // Cada pieza del SVG puede responder a varios accesorios: data-part="rack barras soport"
+  const hasAny = (node, ids) => node.dataset.part.split(' ').some((id) => ids.has(id));
+  const applyParts = (svg, ids) => {
+    $$('[data-part]', svg).forEach((p) => p.classList.toggle('on', hasAny(p, ids)));
+    $('.body-group', svg).classList.toggle('lifted', ids.has('elev'));
+  };
   const peek = (id, on) => {
-    $$(`[data-part="${id}"], [data-for="${id}"]`, rig).forEach((n) => n.classList.toggle('peek', on));
+    $$(`[data-part~="${id}"], [data-for="${id}"]`, rig).forEach((n) => n.classList.toggle('peek', on));
   };
   const flip = (id) => {
     const input = box(id);
@@ -170,6 +176,71 @@
   wide.addEventListener('change', setView);
 
   /* ------------------------------------------------------------------ *
+   * Esquemas pequeños: el mismo dibujo, reutilizado en catálogo y kits
+   * ------------------------------------------------------------------ */
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const hasIO = 'IntersectionObserver' in window;
+  const makeMini = (host) => {
+    const svg = rig.cloneNode(true);
+    ['role', 'aria-label'].forEach((a) => svg.removeAttribute(a));
+    svg.setAttribute('class', 'rig mini');
+    svg.setAttribute('aria-hidden', 'true');
+    svg.setAttribute('viewBox', '110 36 780 320');
+    $$('[id]', svg).forEach((n) => n.removeAttribute('id'));
+    $$('.leaders', svg).forEach((n) => n.remove());
+    $$('.part', svg).forEach((p) => p.classList.remove('on', 'peek'));
+    $('.body-group', svg).classList.remove('lifted');
+    host.append(svg);
+    return svg;
+  };
+
+  // Catálogo: al leer una categoría, sus piezas se iluminan en el esquema fijo de la izquierda
+  const railRig = makeMini($('#rail-visual'));
+  const rows = $$('#catalog > div');
+  const lightRow = (row) => {
+    rows.forEach((r) => r.classList.toggle('is-active', r === row));
+    applyParts(railRig, new Set(row.dataset.parts.split(' ')));
+  };
+  if (hasIO) {
+    const spy = new IntersectionObserver(
+      (entries) => entries.forEach((e) => { if (e.isIntersecting) lightRow(e.target); }),
+      { rootMargin: '-42% 0px -42% 0px' },
+    );
+    rows.forEach((r) => spy.observe(r));
+  }
+  rows.forEach((r) => r.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') lightRow(r); }));
+
+  // Kits: al elegir uno, sus piezas se encienden una a una (explica qué añade)
+  const kitRig = makeMini($('#kit-visual'));
+  let kitTimers = [];
+  const playKit = (items) => {
+    kitTimers.forEach(clearTimeout);
+    kitTimers = [];
+    const wanted = new Set(items);
+    const lift = $('.body-group', kitRig);
+    const parts = $$('[data-part]', kitRig);
+    parts.forEach((g) => g.classList.remove('on'));
+    lift.classList.remove('lifted');
+    let n = 0;
+    parts.forEach((g) => {
+      if (!hasAny(g, wanted)) return;
+      const on = () => {
+        g.classList.add('on');
+        if (wanted.has('elev') && g.dataset.part.split(' ').includes('elev')) lift.classList.add('lifted');
+      };
+      if (reduced.matches) on(); else kitTimers.push(setTimeout(on, 140 + n++ * 70));
+    });
+  };
+
+  // Movimiento ambiental del hero: solo mientras se ve y si el usuario no pidió menos movimiento
+  if (hasIO) {
+    new IntersectionObserver(
+      ([e]) => rig.classList.toggle('ambient', e.isIntersecting && !reduced.matches),
+      { threshold: 0.2 },
+    ).observe($('.stage'));
+  }
+
+  /* ------------------------------------------------------------------ *
    * Render único
    * ------------------------------------------------------------------ */
   const renderAll = () => {
@@ -186,9 +257,8 @@
 
     // hero
     hsButtons.forEach((btns, id) => btns.forEach((b) => b.setAttribute('aria-pressed', String(ids.has(id)))));
-    $$('[data-part]', rig).forEach((p) => p.classList.toggle('on', ids.has(p.dataset.part)));
+    applyParts(rig, ids);
     $$('[data-for]', rig).forEach((l) => l.classList.toggle('on', ids.has(l.dataset.for)));
-    bodyGroup.classList.toggle('lifted', ids.has('elev'));
     heroCount.textContent = `(${list.length})`;
   };
 
@@ -221,6 +291,8 @@
    * ------------------------------------------------------------------ */
   const tabs = $$('#kit-tabs [role="tab"]');
   const panels = $$('.panel');
+  const activeItems = () => panels.find((p) => !p.hidden).dataset.items.split(',');
+  let kitsSeen = false;
   const selectTab = (tab, focus = false) => {
     tabs.forEach((t) => {
       const on = t === tab;
@@ -229,6 +301,7 @@
     });
     panels.forEach((p) => { p.hidden = p.id !== tab.getAttribute('aria-controls'); });
     if (focus) tab.focus();
+    if (kitsSeen) playKit(activeItems());
   };
   tabs.forEach((t) => t.addEventListener('click', () => selectTab(t)));
   $('#kit-tabs').addEventListener('keydown', (e) => {
@@ -242,6 +315,18 @@
     selectTab(tabs[next], true);
   });
   selectTab(tabs[0]);
+  if (hasIO) {
+    const kitsIO = new IntersectionObserver(([e]) => {
+      if (!e.isIntersecting) return;
+      kitsSeen = true;
+      playKit(activeItems());
+      kitsIO.disconnect();
+    }, { threshold: 0.35 });
+    kitsIO.observe($('.kits'));
+  } else {
+    kitsSeen = true;
+    playKit(activeItems());
+  }
 
   $$('[data-add-kit]').forEach((b) => b.addEventListener('click', () => {
     b.closest('.panel').dataset.items.split(',').forEach((id) => { const input = box(id); if (input) input.checked = true; });
@@ -250,13 +335,47 @@
   }));
 
   /* ------------------------------------------------------------------ *
-   * Proyectos: solo aparecen si hay fotos reales
+   * Proyectos: solo aparecen si hay fotos reales (mosaico + visor ampliado)
    * ------------------------------------------------------------------ */
   if (PROJECTS.length) {
     const gallery = $('#gallery');
-    PROJECTS.forEach((p) => gallery.append(el('img', { src: p.img, alt: p.alt, loading: 'lazy' })));
+    const lb = $('#lightbox');
+    const lbImg = $('.lb-img', lb);
+    let cur = 0;
+    const show = (i) => {
+      cur = (i + PROJECTS.length) % PROJECTS.length;
+      lbImg.src = PROJECTS[cur].img;
+      lbImg.alt = PROJECTS[cur].alt;
+    };
+    PROJECTS.forEach((p, i) => {
+      const shot = el('button', {
+        class: `shot${p.size ? ` ${p.size}` : ''}`, type: 'button', 'data-reveal': '', 'aria-label': `Ampliar foto: ${p.alt}`,
+      }, el('img', { src: p.img, alt: p.alt, loading: 'lazy' }));
+      shot.addEventListener('click', () => { show(i); lb.showModal(); });
+      gallery.append(shot);
+    });
+    $('.lb-close', lb).addEventListener('click', () => lb.close());
+    $('.lb-prev', lb).addEventListener('click', () => show(cur - 1));
+    $('.lb-next', lb).addEventListener('click', () => show(cur + 1));
+    if (PROJECTS.length < 2) { $('.lb-prev', lb).hidden = true; $('.lb-next', lb).hidden = true; }
+    lb.addEventListener('click', (e) => { if (e.target === lb) lb.close(); });
+    lb.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') show(cur - 1);
+      if (e.key === 'ArrowRight') show(cur + 1);
+    });
     $('#proyectos').hidden = false;
     $('#nav-proyectos').hidden = false;
+  }
+
+  /* ------------------------------------------------------------------ *
+   * Entrada de contenido: las líneas se dibujan y luego aparece el texto
+   * ------------------------------------------------------------------ */
+  if (hasIO) {
+    document.documentElement.classList.add('reveal-ready');
+    const io = new IntersectionObserver((entries) => entries.forEach((e) => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    }), { threshold: 0.15, rootMargin: '0px 0px -6% 0px' });
+    $$('[data-draw], [data-reveal]').forEach((n) => io.observe(n));
   }
 
   renderAll();

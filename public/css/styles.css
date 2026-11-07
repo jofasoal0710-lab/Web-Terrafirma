@@ -253,10 +253,6 @@ h3 { font-size: 1.5rem; letter-spacing: .01em; }
 .sum-total { display: flex; align-items: baseline; justify-content: space-between; border-top: 1px solid var(--line); margin: 1.2rem 0; padding-top: 1rem; color: var(--muted); }
 .sum-total strong { font: 700 2.6rem/1 var(--display); color: var(--text); }
 
-/* ---------- Proyectos (solo con fotos reales) ---------- */
-.gallery { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
-.gallery img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--r); background: var(--surface); }
-
 /* ---------- Contacto ---------- */
 .contact-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 3rem; }
 .info { margin: 2.2rem 0 0; display: grid; gap: 1.2rem; }
@@ -291,7 +287,7 @@ h3 { font-size: 1.5rem; letter-spacing: .01em; }
   .form .row { grid-template-columns: 1fr 1fr; }
   .mod-row { grid-template-columns: 200px 1fr; }
   .catalog > div { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); }
-  .hero-bar { grid-template-columns: 1fr auto; gap: 2rem; }
+  .hero-bar { grid-template-columns: auto 1fr; gap: 1.5rem 2rem; }
 }
 @media (min-width: 900px) {
   .hero-head { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); }
@@ -309,6 +305,9 @@ h3 { font-size: 1.5rem; letter-spacing: .01em; }
   .leaders, .hotspots { display: block; }
   .hero-chips { display: none; }
 }
+@media (max-width: 899px) {
+  .rail-visual { display: none; }
+}
 @media (max-width: 959px) {
   .nav-toggle { display: block; }
   .nav { position: absolute; left: 0; right: 0; top: 100%; flex-direction: column; align-items: stretch; gap: 0; background: var(--bg); border-bottom: 1px solid var(--line); padding: .5rem 1rem 1.2rem; display: none; }
@@ -320,8 +319,88 @@ h3 { font-size: 1.5rem; letter-spacing: .01em; }
   .brand img { height: 44px; }
   .hero-bar .btn { width: 100%; }
 }
+/* ---------- Piezas extra: solo se ven al elegirlas ---------- */
+.part.extra { opacity: 0; transition: color var(--t-state) var(--ease-out), opacity var(--t-state) var(--ease-out); }
+.part.extra.on { opacity: 1; }
+.rimring circle { stroke-width: 3; }
+
+/* ---------- Esquemas pequeños (catálogo y kits) ---------- */
+.rig.mini { position: static; inset: auto; width: 100%; height: auto; aspect-ratio: 780 / 320; overflow: hidden; }
+.js .mini .body.draw { animation: none; stroke-dasharray: none; stroke-dashoffset: 0; }
+.js .mini .wheel, .js .mini .glass, .js .mini .seam, .js .mini .lamp { animation: none; }
+.rail-visual { margin-top: 2.5rem; }
+.kit-main { display: grid; grid-template-columns: minmax(0, 1fr); min-width: 0; }
+.kit-visual { max-width: 600px; margin-bottom: 1.75rem; }
+.kit-visual:empty, .rail-visual:empty { display: none; }
+.catalog dt { transition: color var(--t-state) var(--ease-out); }
+.catalog > div.is-active dt { color: var(--red-text); }
+
+/* ---------- Movimiento ambiental del hero (solo mientras es visible) ---------- */
+.rig.ambient .ground { stroke-dasharray: 10 14; animation: crawl 3s linear infinite; }
+.rig.ambient .tread circle { transform-box: fill-box; transform-origin: center; animation: spin 45s linear infinite; }
+@keyframes crawl { to { stroke-dashoffset: -24; } }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---------- Lenguaje de movimiento: las líneas se dibujan, luego entra el contenido ---------- */
+.reveal-ready [data-draw] { position: relative; border-top-color: transparent; }
+.reveal-ready [data-draw]::after {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; background: var(--rule, var(--line));
+  transform: scaleX(0); transform-origin: left; transition: transform 700ms var(--ease-out);
+}
+.reveal-ready .steps [data-draw] { --rule: var(--line-strong); }
+.reveal-ready [data-draw] > * { opacity: 0; translate: 0 8px; transition: opacity 500ms var(--ease-out) 120ms, translate 500ms var(--ease-out) 120ms; }
+.reveal-ready [data-draw] > :nth-child(2) { transition-delay: 220ms; }
+.reveal-ready [data-draw] > :nth-child(3) { transition-delay: 300ms; }
+.reveal-ready [data-draw].in::after { transform: scaleX(1); }
+.reveal-ready [data-draw].in > * { opacity: 1; translate: 0 0; }
+.reveal-ready .catalog > div:last-child { border-bottom-color: transparent; transition: border-color 700ms var(--ease-out) 300ms; }
+.reveal-ready .catalog > div:last-child.in { border-bottom-color: var(--line); }
+.install-logo { overflow: hidden; }
+/* El recorte se aplica a la imagen hija: un contenedor totalmente recortado nunca cuenta como visible para el IntersectionObserver */
+.reveal-ready [data-reveal] > img { clip-path: inset(0 0 100% 0); scale: 1.06; transition: clip-path 800ms var(--ease-out), scale 1000ms var(--ease-out), transform 600ms var(--ease-out); }
+.reveal-ready [data-reveal].in > img { clip-path: inset(0 0 0 0); scale: 1; }
+.reveal-ready .install-logo[data-reveal] { background: transparent; transition: background-color 500ms var(--ease-out); }
+.reveal-ready .install-logo[data-reveal].in { background: #fff; }
+
+/* ---------- Proyectos: mosaico de fotos reales + visor ---------- */
+.gallery { display: grid; gap: .75rem; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-flow: dense; grid-auto-rows: clamp(10rem, 42vw, 15rem); }
+.shot { position: relative; padding: 0; margin: 0; border: 0; border-radius: var(--r); overflow: hidden; background: var(--surface); cursor: zoom-in; }
+.shot.wide { grid-column: span 2; }
+.shot.tall { grid-row: span 2; }
+@media (min-width: 640px) {
+  .gallery { grid-template-columns: repeat(6, minmax(0, 1fr)); grid-auto-rows: clamp(9rem, 17vw, 15rem); }
+  .shot { grid-column: span 2; }
+  .shot.wide { grid-column: span 4; }
+}
+.shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.shot:focus-visible { outline: 2px solid var(--red-text); outline-offset: 3px; }
+@media (hover: hover) and (pointer: fine) { .shot:hover img { transform: scale(1.03); } }
+.lightbox { border: 0; padding: 0; background: transparent; max-width: 100vw; max-height: 100vh; width: 100vw; height: 100vh; }
+.lightbox::backdrop { background: rgb(0 0 0 / .94); }
+.lightbox[open] { display: grid; place-items: center; animation: lb 200ms var(--ease-out); }
+@keyframes lb { from { opacity: 0; } }
+.lb-img { max-width: 94vw; max-height: 86vh; object-fit: contain; }
+.lb-btn { position: absolute; display: grid; place-items: center; width: 48px; height: 48px; border: 1px solid var(--line-strong); border-radius: var(--r); background: var(--bg); color: var(--text); cursor: pointer; transition: border-color var(--t-state) var(--ease-out), transform var(--t-press) var(--ease-out); }
+.lb-btn:active { transform: scale(0.95); }
+.lb-btn:focus-visible { outline: 2px solid var(--red-text); outline-offset: 3px; }
+.lb-close { top: 1rem; right: 1rem; }
+.lb-prev { left: 1rem; top: 50%; translate: 0 -50%; }
+.lb-next { right: 1rem; top: 50%; translate: 0 -50%; }
+.lb-btn::before { content: ""; width: 16px; height: 16px; background: currentColor; }
+.lb-close::before { clip-path: polygon(10% 0, 50% 40%, 90% 0, 100% 10%, 60% 50%, 100% 90%, 90% 100%, 50% 60%, 10% 100%, 0 90%, 40% 50%, 0 10%); }
+.lb-prev::before { clip-path: polygon(70% 0, 85% 12%, 45% 50%, 85% 88%, 70% 100%, 15% 50%); }
+.lb-next::before { clip-path: polygon(30% 0, 15% 12%, 55% 50%, 15% 88%, 30% 100%, 85% 50%); }
+@media (hover: hover) and (pointer: fine) { .lb-btn:hover { border-color: var(--red-text); } }
+
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .js .body.draw { stroke-dasharray: none; stroke-dashoffset: 0; }
+  .reveal-ready [data-draw]::after { transform: none; }
+  .reveal-ready [data-draw] > * { opacity: 1; translate: none; }
+  .reveal-ready .catalog > div:last-child { border-bottom-color: var(--line); }
+  .reveal-ready [data-reveal] > img { clip-path: none; scale: 1; }
+  .reveal-ready .install-logo[data-reveal] { background: #fff; }
+  .rig.ambient .ground, .rig.ambient .tread circle { animation: none; }
 }
