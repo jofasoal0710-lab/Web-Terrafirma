@@ -15,7 +15,7 @@ Neutros puros, sin tinte (negro y blanco de la marca) y un solo acento, el rojo 
 | `--surface` | `#151515` | Resumen y formulario |
 | `--line` / `--line-strong` | `#262626` / `#3d3d3d` | Divisores y bordes |
 | `--text` / `--muted` | `#f4f4f1` / `#a9a9a4` | Texto principal y secundario |
-| `--red` | `#e32b22` | Rellenos (botón, chip elegido). Texto blanco encima |
+| `--red` | `#d9261c` | Rellenos (botón, chip elegido). Texto blanco encima: 4,95:1. Al pasar el cursor oscurece (`--red-hover: #c21f16`), nunca aclara |
 | `--red-text` | `#ff5b4d` | Texto, líneas y foco sobre negro (contraste ≥ 4,5:1) |
 
 ## Tipografía
@@ -48,6 +48,9 @@ Selección de texto roja, cursor (`caret-color`) rojo, barra de desplazamiento o
 
 ## Accesibilidad
 Contraste ≥ 4,5:1 en texto, objetivos táctiles ≥ 44 px en móvil, foco visible, esquema con `role="img"` y controles reales (`button`, `checkbox`, pestañas con flechas), sin dependencia de JS para leer el contenido.
+
+## Ajuste a la pantalla
+El esquema del hero se dimensiona con la altura disponible (`--hero-chrome`) para que el titular, el esquema completo y el botón quepan en portátiles de 720 a 900 px de alto. Nunca baja de 820 px de ancho: por debajo las etiquetas se solaparían.
 
 ## Responsive
 - **≥ 1000 px:** etiquetas alrededor del esquema con líneas guía.

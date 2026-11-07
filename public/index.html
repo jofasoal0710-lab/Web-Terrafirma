@@ -3,15 +3,27 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Terrafirma Costa Rica · Accesorios 4x4 e instalación en Musmanni's Workshop</title>
-  <meta name="description" content="Terrafirma Costa Rica: serious 4x4 accessories. Suspensión, defensas, winches, portaequipajes, snorkel e iluminación para tu 4x4, instalados en Musmanni's Workshop. Arma tu lista y pide cotización.">
+  <title>Terrafirma Costa Rica · Accesorios 4x4 e instalación</title>
+  <meta name="description" content="Accesorios 4x4 Terrafirma en Costa Rica, instalados en Musmanni's Workshop. Arma tu lista de piezas y pide tu cotización.">
   <meta name="theme-color" content="#000000">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="es_CR">
   <meta property="og:title" content="Terrafirma Costa Rica · Serious 4x4 Accessories">
   <meta property="og:description" content="Accesorios 4x4 instalados en Musmanni's Workshop. Arma tu lista y pide cotización.">
+  <meta property="og:url" content="https://terrafirma-costarica.netlify.app/">
+  <meta property="og:site_name" content="Terrafirma Costa Rica">
+  <meta property="og:image" content="https://terrafirma-costarica.netlify.app/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Terrafirma Costa Rica: Equipa tu 4x4. Ve más lejos.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://terrafirma-costarica.netlify.app/">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Terrafirma Costa Rica","url":"https://terrafirma-costarica.netlify.app/","logo":"https://terrafirma-costarica.netlify.app/images/terrafirma-logo-white.png","slogan":"Serious 4x4 Accessories","areaServed":"CR","sameAs":["https://www.instagram.com/terrafirma_cr/"]}</script>
   <link rel="preload" href="/fonts/barlow-condensed-700.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/barlow-400.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/css/styles.css">
   <script>document.documentElement.classList.add('js');</script>
 </head>
@@ -33,12 +45,12 @@
       <a href="#instalacion">Instalación</a>
       <a href="#cotizador">Mi lista</a>
       <a id="nav-proyectos" href="#proyectos" hidden>Proyectos</a>
-      <a class="btn btn-sm" href="#contacto">Pedir cotización</a>
+      <a class="btn btn-sm" href="#contacto">Solicitar cotización</a>
     </nav>
   </div>
 </header>
 
-<main id="contenido">
+<main id="contenido" tabindex="-1">
 
   <!-- HERO: el esquema del 4x4 es la herramienta para armar la lista -->
   <section id="inicio" class="hero">
@@ -118,8 +130,9 @@
       <ul class="hero-chips" id="hero-chips" aria-label="Piezas del esquema"></ul>
 
       <div class="hero-bar">
-        <a class="btn" href="#cotizador" id="hero-cta">Ver mi lista <span class="count" id="hero-count">(0)</span></a>
+        <a class="btn" href="#cotizador" id="hero-cta"><span id="hero-cta-label">Armar mi lista</span> <span class="count" id="hero-count"></span></a>
         <p class="hint">Toca una pieza para añadirla. La cotización final depende de tu vehículo.</p>
+        <noscript><p class="noscript-note">Para armar tu lista necesitas activar JavaScript. También puedes <a href="#contacto">escribirnos directamente</a> desde el formulario.</p></noscript>
       </div>
     </div>
   </section>
@@ -245,6 +258,7 @@
         <p>Marca lo que te interesa, también desde el esquema de arriba. Te respondemos con la cotización para tu vehículo.</p>
       </header>
 
+      <noscript><p class="noscript-note">Para armar tu lista necesitas activar JavaScript. Si prefieres, cuéntanos qué buscas en el <a href="#contacto">formulario de contacto</a>.</p></noscript>
       <div class="builder">
         <div id="mods" class="mods"><!-- generado por js/main.js --></div>
 
@@ -278,11 +292,9 @@
       <div>
         <h2>Cuéntanos de tu 4x4</h2>
         <p class="lead-sm">Escríbenos con tu vehículo y lo que quieres instalar. Te respondemos lo antes posible.</p>
-        <dl class="info">
-          <div><dt>Instalación</dt><dd>Musmanni's Workshop, dirección por confirmar</dd></div>
-          <div><dt>Teléfono y WhatsApp</dt><dd>Por confirmar</dd></div>
-          <div><dt>Correo</dt><dd>Por confirmar</dd></div>
-          <div><dt>Horario</dt><dd>Por confirmar</dd></div>
+        <dl class="info" id="contact-info">
+          <div><dt>Instalación</dt><dd>Musmanni's Workshop</dd></div>
+          <div><dt>Instagram</dt><dd><a href="https://www.instagram.com/terrafirma_cr/" target="_blank" rel="noopener">@terrafirma_cr</a></dd></div>
         </dl>
       </div>
 
@@ -327,6 +339,8 @@
 
 </main>
 
+<p class="sr-only" id="list-status" role="status" aria-live="polite"></p>
+
 <dialog class="lightbox" id="lightbox" aria-label="Foto ampliada">
   <img class="lb-img" alt="">
   <button class="lb-btn lb-close" type="button" aria-label="Cerrar"></button>
@@ -340,6 +354,7 @@
       <img src="/images/terrafirma-logo-white.png" alt="Terrafirma Costa Rica" width="338" height="128" loading="lazy">
     </a>
     <p>Instalación en Musmanni's Workshop</p>
+    <p><a href="https://www.instagram.com/terrafirma_cr/" target="_blank" rel="noopener">Instagram @terrafirma_cr</a></p>
     <p>© <span id="year">2026</span> Terrafirma Costa Rica. Todos los derechos reservados.</p>
   </div>
 </footer>

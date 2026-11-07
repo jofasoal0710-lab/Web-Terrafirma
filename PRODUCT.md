@@ -21,7 +21,7 @@ Español de Costa Rica, directo y concreto. Verbos simples, frases cortas, sin e
 ## Hechos y límites (no inventar)
 - **Sin precios:** todo se cotiza por vehículo. No mostrar cifras ni "desde".
 - **Sin cifras de resultados, años de experiencia ni testimonios.**
-- **Datos de contacto pendientes** (aparecen como "Por confirmar"): dirección de Musmanni's, teléfono y WhatsApp, correo, horario.
+- **Datos de contacto pendientes** (no se muestran hasta tenerlos): WhatsApp, teléfono, correo, dirección de Musmanni's y horario. Se configuran en `CONTACT` (`public/js/main.js`). El Instagram es `@terrafirma_cr`.
 - Las categorías y accesorios del catálogo son una propuesta genérica de equipamiento 4x4; confirmar contra el catálogo real.
 - La sección **Proyectos** permanece oculta hasta que existan fotos reales de instalaciones (`PROJECTS` en `public/js/main.js`).
 

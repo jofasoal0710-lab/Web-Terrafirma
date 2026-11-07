@@ -61,6 +61,11 @@
     { id: 'winch',   label: 'Winch',          x: 850, y: 392 },
   ];
 
+  // Datos de contacto. Los campos vacíos no se muestran.
+  // `whatsapp` con código de país y solo dígitos (ej. '50688887777') activa los botones de WhatsApp,
+  // que envían la lista elegida ya escrita en el mensaje.
+  const CONTACT = { whatsapp: '', phone: '', email: '', address: '', hours: '' };
+
   // Fotos reales de instalaciones. Mientras esté vacío, la sección "Proyectos" permanece oculta.
   // { img: '/images/proyectos/hilux.jpg', alt: 'Toyota Hilux con snorkel y portaequipajes', size: 'wide' }
   // `size` es opcional: 'wide' (ocupa más ancho) o 'tall' (ocupa más alto) para dar ritmo al mosaico.
@@ -135,6 +140,9 @@
   const hotspotsBox = $('#hotspots');
   const heroChips = $('#hero-chips');
   const heroCount = $('#hero-count');
+  const heroCta = $('#hero-cta');
+  const heroCtaLabel = $('#hero-cta-label');
+  const status = $('#list-status');
   const hsButtons = new Map();   // id -> [botón sobre el esquema, chip móvil]
 
   // Cada pieza del SVG puede responder a varios accesorios: data-part="rack barras soport"
@@ -243,6 +251,36 @@
   /* ------------------------------------------------------------------ *
    * Render único
    * ------------------------------------------------------------------ */
+  /* La lista se recuerda en este navegador (solo los ids): sobrevive a recargar o volver atrás. */
+  const STORE = 'tf-lista';
+  const loadSaved = () => { try { const v = JSON.parse(localStorage.getItem(STORE) || '[]'); return Array.isArray(v) ? v : []; } catch (e) { return []; } };
+  const save = (ids) => { try { if (ids.length) localStorage.setItem(STORE, JSON.stringify(ids)); else localStorage.removeItem(STORE); } catch (e) { /* sin almacenamiento */ } };
+
+  /* WhatsApp (solo si CONTACT.whatsapp tiene número) */
+  const waDigits = CONTACT.whatsapp.replace(/\D/g, '');
+  const waLinks = [];
+  const waUrl = (list) => `https://wa.me/${waDigits}?text=${encodeURIComponent(list.length
+    ? `Hola, quiero cotizar estos accesorios para mi 4x4:\n${summaryText(list)}`
+    : 'Hola, quiero cotizar accesorios para mi 4x4.')}`;
+  const waButton = (cls) => { const a = el('a', { class: cls, href: '#', target: '_blank', rel: 'noopener', text: 'Escribir por WhatsApp' }); waLinks.push(a); return a; };
+  if (waDigits) {
+    sendBtn.after(waButton('btn btn-line btn-block'));
+    $('.contact-grid .lead-sm').after(waButton('btn btn-line'));
+  }
+  const info = $('#contact-info');
+  [['WhatsApp', waDigits && `+${waDigits}`, waDigits && `https://wa.me/${waDigits}`],
+   ['Teléfono', CONTACT.phone, CONTACT.phone && `tel:${CONTACT.phone.replace(/[^\d+]/g, '')}`],
+   ['Correo', CONTACT.email, CONTACT.email && `mailto:${CONTACT.email}`],
+   ['Dirección', CONTACT.address],
+   ['Horario', CONTACT.hours]].forEach(([dt, dd, href]) => {
+    if (!dd) return;
+    info.append(el('div', {}, el('dt', { text: dt }), el('dd', {}, href ? el('a', { href, text: dd }) : document.createTextNode(dd))));
+  });
+
+  let ready = false;       // los avisos para lectores de pantalla empiezan tras la primera interacción
+  let lastCount = 0;
+  const plural = (n) => `${n} ${n === 1 ? 'accesorio' : 'accesorios'}`;
+
   const renderAll = () => {
     const list = selected();
     const ids = new Set(list.map((m) => m.id));
@@ -259,7 +297,18 @@
     hsButtons.forEach((btns, id) => btns.forEach((b) => b.setAttribute('aria-pressed', String(ids.has(id)))));
     applyParts(rig, ids);
     $$('[data-for]', rig).forEach((l) => l.classList.toggle('on', ids.has(l.dataset.for)));
-    heroCount.textContent = `(${list.length})`;
+    heroCount.textContent = list.length ? `(${list.length})` : '';
+    heroCtaLabel.textContent = list.length ? 'Ver mi lista' : 'Armar mi lista';
+    heroCta.setAttribute('aria-label', list.length ? `Ver mi lista, ${plural(list.length)}` : 'Armar mi lista de accesorios');
+
+    // formulario: con una lista elegida el mensaje pasa a ser opcional
+    message.required = list.length === 0;
+    message.placeholder = list.length ? 'Opcional: cuéntanos algo más sobre tu 4x4. Ya incluimos tu lista.' : '¿Qué te gustaría instalar en tu 4x4?';
+
+    save([...ids]);
+    waLinks.forEach((a) => { a.href = waUrl(list); });
+    if (ready && list.length !== lastCount) status.textContent = list.length ? `${plural(list.length)} en tu lista` : 'Tu lista está vacía';
+    lastCount = list.length;
   };
 
   modsBox.addEventListener('change', renderAll);
@@ -284,6 +333,20 @@
     writeSelectionToMessage();
     $('#contacto').scrollIntoView({ behavior: 'smooth' });
     setTimeout(() => $('input[name="nombre"]').focus({ preventScroll: true }), 500);
+  });
+
+  const form = $('form[name="contacto"]');
+  const submitBtn = $('button[type="submit"]', form);
+  form.addEventListener('submit', () => {
+    submitBtn.disabled = true;
+    submitBtn.setAttribute('aria-busy', 'true');
+    submitBtn.textContent = 'Enviando…';
+  });
+  window.addEventListener('pageshow', (e) => {
+    if (!e.persisted) return;
+    submitBtn.disabled = false;
+    submitBtn.removeAttribute('aria-busy');
+    submitBtn.textContent = 'Enviar solicitud';
   });
 
   /* ------------------------------------------------------------------ *
@@ -368,6 +431,22 @@
   }
 
   /* ------------------------------------------------------------------ *
+   * Navegación: marca la sección que se está viendo
+   * ------------------------------------------------------------------ */
+  if (hasIO) {
+    const navLinks = $$('#menu a[href^="#"]:not(.btn)');
+    const watched = [$('#inicio'), $('#contacto'), ...navLinks.map((a) => $(a.getAttribute('href')))].filter(Boolean);
+    const navSpy = new IntersectionObserver((entries) => entries.forEach((e) => {
+      if (!e.isIntersecting) return;
+      navLinks.forEach((a) => {
+        if (a.getAttribute('href') === `#${e.target.id}`) a.setAttribute('aria-current', 'location');
+        else a.removeAttribute('aria-current');
+      });
+    }), { rootMargin: '-45% 0px -50% 0px' });
+    watched.forEach((s) => navSpy.observe(s));
+  }
+
+  /* ------------------------------------------------------------------ *
    * Entrada de contenido: las líneas se dibujan y luego aparece el texto
    * ------------------------------------------------------------------ */
   if (hasIO) {
@@ -378,5 +457,7 @@
     $$('[data-draw], [data-reveal]').forEach((n) => io.observe(n));
   }
 
+  loadSaved().forEach((id) => { const input = box(id); if (input) input.checked = true; });
   renderAll();
+  ready = true;
 })();

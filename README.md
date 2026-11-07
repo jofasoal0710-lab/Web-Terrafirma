@@ -42,10 +42,15 @@ python3 -m http.server 8000 --directory public
 
 Abre http://localhost:8000. (El formulario solo se registra al estar desplegado en Netlify.)
 
-## Datos pendientes de completar
+## Datos de contacto (WhatsApp, teléfono, correo, dirección, horario)
 
-En `public/index.html`, sección **Contacto**, hay cuatro campos marcados *«Por confirmar»*:
-dirección de Musmanni's Workshop, teléfono/WhatsApp, correo y horario. Reemplázalos antes de publicar.
+Hoy la página solo muestra datos reales: Musmanni's Workshop e Instagram. Para añadir el resto, edita `CONTACT` al inicio de `public/js/main.js`; los campos vacíos no se muestran:
+
+```js
+const CONTACT = { whatsapp: '50688887777', phone: '+506 2222 3333', email: 'info@tudominio.cr', address: '...', hours: 'L-V 8:00 a 17:00' };
+```
+
+Con `whatsapp` (código de país y solo dígitos) aparecen los botones **Escribir por WhatsApp** en "Mi lista" y en Contacto, con la lista elegida ya escrita en el mensaje.
 
 ## Personalizar
 
@@ -78,7 +83,9 @@ dirección de Musmanni's Workshop, teléfono/WhatsApp, correo y horario. Reempl�
 
 **Formulario de contacto:** tras el primer despliegue, en *Site configuration → Forms* aparecerá el formulario `contacto`. Activa avisos por correo en *Form notifications*. Cada envío incluye la lista elegida en el cotizador.
 
-**Dominio propio:** *Domain management → Add a domain*. Netlify genera el HTTPS automáticamente.
+**Dominio propio:** *Domain management → Add a domain*. Netlify genera el HTTPS automáticamente. Al cambiar de dominio, actualiza la URL `https://terrafirma-costarica.netlify.app` en `public/index.html` (`canonical`, `og:url`, `og:image` y el JSON-LD), `public/robots.txt` y `public/sitemap.xml`.
+
+**Imagen al compartir y iconos:** `public/og-image.png` (1200×630) es lo que se ve al compartir el enlace por WhatsApp o redes. Para cambiarla, sustitúyela por otra del mismo tamaño. Los iconos están en `public/favicon.ico`, `favicon.svg` y `apple-touch-icon.png`.
 
 ## Créditos y licencias
 
