@@ -83,13 +83,13 @@ Solo `img` y `alt` son obligatorios; el resto es opcional:
 
 La sección **Proyectos**, su visor ampliado (flechas, Esc y deslizar con el dedo) y el enlace del menú aparecen solos en cuanto haya al menos una foto. Antes de publicar una foto, confirma que tienes derecho a usarla y que no muestra placas, rostros o datos de clientes sin su permiso.
 
-**Asistente de preguntas:** vive en `public/js/assistant.js`. Cada entrada de `INTENTS` tiene una pregunta (`q`), palabras que la activan (`keys`, sin importar tildes ni mayúsculas) y la respuesta (`a`). Para añadir una respuesta con un dato del negocio (garantía, tiempos, formas de pago), agrega una entrada nueva **solo cuando el dato sea real**: el asistente nunca debe inventar. Lo que no reconoce lo deriva al equipo con la pregunta ya escrita en el formulario. Las respuestas de contacto, ubicación y horario usan `CONTACT` y se completan solas cuando esos datos existen.
+**Asistente de preguntas:** vive en `public/js/assistant.js`. Cada entrada de `INTENTS` tiene una pregunta (`q`), palabras que la activan (`keys`, sin importar tildes ni mayúsculas) y la respuesta (`a`). Para añadir una respuesta con un dato del negocio (tiempos, formas de pago), agrega una entrada nueva **solo cuando el dato sea real**: el asistente nunca debe inventar. La garantía ya está, atribuida al fabricante (24 meses según su FAQ); cuando Terrafirma Costa Rica confirme sus propios términos, edita la entrada `garantia`. Lo que no reconoce lo deriva al equipo con la pregunta ya escrita en el formulario. Las respuestas de contacto, ubicación y horario usan `CONTACT` y se completan solas cuando esos datos existen.
 
 Para que una pregunta con IA real (respuestas libres) sea posible hace falta una función de Netlify con una clave de API, límite de uso y control de abuso; hoy el sitio no tiene backend a propósito.
 
 **Precios:** el sitio no muestra precios; todo se cotiza por vehículo.
 
-> Las categorías, los accesorios del cotizador y los kits son una propuesta genérica de equipamiento 4x4. Ajústalos al catálogo real.
+> Las categorías y los nombres del cotizador siguen los tipos de producto de la gama del fabricante ([terrafirma4x4.com/products](https://terrafirma4x4.com/products)); los kits son una propuesta de partida. Ajústalos a lo que Terrafirma Costa Rica tenga y cotice (ver `PRODUCT.md`: qué está confirmado y qué no).
 
 ## Desplegar en Netlify
 

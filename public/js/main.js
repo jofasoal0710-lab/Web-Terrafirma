@@ -9,42 +9,43 @@
    * DATOS
    * ------------------------------------------------------------------ */
 
-  // Categorías y accesorios de la lista. Ajusta los nombres al catálogo real.
+  // Categorías y accesorios de la lista. Siguen los tipos de producto de la gama del fabricante (terrafirma4x4.com/products).
+  // Ajusta los nombres a lo que Terrafirma Costa Rica tenga y cotice.
   const MODS = [
     { cat: 'Suspensión', items: [
       { id: 'elev',  name: 'Kit de elevación' },
       { id: 'amort', name: 'Amortiguadores' },
-      { id: 'resor', name: 'Resortes / muelles' },
+      { id: 'resor', name: 'Resortes helicoidales' },
     ]},
-    { cat: 'Defensas y protección', items: [
-      { id: 'def-del', name: 'Defensa delantera' },
-      { id: 'def-tra', name: 'Defensa trasera' },
+    { cat: 'Protección', items: [
       { id: 'skid',    name: 'Protector de bajos (skid plate)' },
       { id: 'rock',    name: 'Estribos / rock sliders' },
     ]},
-    { cat: 'Winches y recuperación', items: [
-      { id: 'winch',  name: 'Winch' },
-      { id: 'remol',  name: 'Puntos de remolque y ganchos' },
-      { id: 'recup',  name: 'Equipo de recuperación' },
+    { cat: 'Defensas y recuperación', items: [
+      { id: 'def-del', name: 'Defensa delantera' },
+      { id: 'def-tra', name: 'Defensa trasera' },
+      { id: 'winch',   name: 'Winch eléctrico' },
+      { id: 'remol',   name: 'Puntos de remolque y enganches' },
+      { id: 'recup',   name: 'Accesorios de recuperación y gatos' },
     ]},
-    { cat: 'Techo y carga', items: [
-      { id: 'rack',   name: 'Portaequipajes / canasta de techo' },
+    { cat: 'Expedición', items: [
+      { id: 'rack',   name: 'Portaequipajes de techo' },
       { id: 'barras', name: 'Barras de techo' },
-      { id: 'soport', name: 'Soportes para carga y accesorios' },
-    ]},
-    { cat: 'Snorkel y admisión', items: [
-      { id: 'snork',  name: 'Snorkel' },
-      { id: 'filtro', name: 'Filtro de aire de alto flujo' },
+      { id: 'soport', name: 'Soportes y accesorios para el portaequipajes' },
+      { id: 'snork',  name: 'Snorkel (toma de aire elevada)' },
+      { id: 'repu',   name: 'Soporte para llanta de repuesto' },
     ]},
     { cat: 'Iluminación', items: [
       { id: 'led',    name: 'Barra LED' },
-      { id: 'faros',  name: 'Faros auxiliares' },
+      { id: 'faros',  name: 'Luces de conducción LED' },
       { id: 'trab',   name: 'Luces de trabajo' },
     ]},
-    { cat: 'Ruedas y neumáticos', items: [
+    { cat: 'Rendimiento', items: [
+      { id: 'filtro', name: 'Filtro de aire de espuma' },
+    ]},
+    { cat: 'Ruedas', items: [
       { id: 'at',     name: 'Neumáticos todo terreno' },
-      { id: 'rines',  name: 'Rines reforzados' },
-      { id: 'repu',   name: 'Soporte para llanta de repuesto' },
+      { id: 'rines',  name: 'Rines de acero o aleación' },
     ]},
   ];
 
