@@ -3,7 +3,7 @@
 Sistema vigente en `public/css/styles.css`. Revisado con las guías de Impeccable, `frontend-design`, Emil Kowalski y Motion Design.
 
 ## Idea central
-El hero **es la herramienta**: un esquema técnico del 4x4 donde cada accesorio se toca para añadirlo a la lista. La lista (las casillas de "Mi lista") es la única fuente de verdad; el esquema, los chips, el resumen y el formulario se derivan de ella. Cada uno de los 21 accesorios del catálogo tiene su pieza en el esquema, y ese mismo dibujo se reutiliza en el catálogo y en los kits. Todo lo demás apoya esa acción.
+El hero **es la herramienta**: un esquema técnico del 4x4 donde cada accesorio se toca para añadirlo a la lista. La lista (las casillas de "Mi lista") es la única fuente de verdad; el esquema, los chips, el resumen y el formulario se derivan de ella. Cada uno de los 20 accesorios del catálogo tiene su pieza en el esquema, y ese mismo dibujo se reutiliza en el catálogo y en los kits. Todo lo demás apoya esa acción.
 
 ## Color
 Neutros puros, sin tinte (negro y blanco de la marca) y un solo acento, el rojo de la "M" del logo.
@@ -33,7 +33,7 @@ Neutros puros, sin tinte (negro y blanco de la marca) y un solo acento, el rojo 
 ## Movimiento (personalidad: precisa y rápida, sin rebote)
 **Lenguaje:** *un plano técnico que se dibuja.* Primero se trazan las líneas y después entra el contenido. Es el mismo gesto en todo el sitio, así que no es una entrada idéntica por sección sino una sola idea con distintos materiales.
 
-- **Hero:** el esquema se dibuja al cargar (1,1 s) y las etiquetas entran en cascada (45 ms entre ellas). Después, un movimiento ambiental muy lento (el suelo avanza y el dibujo de los neumáticos gira), solo mientras el hero está en pantalla y nunca con `prefers-reduced-motion`.
+- **Hero:** el esquema se dibuja al cargar (1,1 s) y las etiquetas entran en cascada (45 ms entre ellas). Después, un movimiento ambiental muy lento (el suelo avanza y el dibujo de las ruedas gira), solo mientras el hero está en pantalla y nunca con `prefers-reduced-motion`.
 - **Catálogo:** un esquema fijo a la izquierda ilumina las piezas de la categoría que se está leyendo (seguimiento del scroll). Los divisores se dibujan de izquierda a derecha y luego aparece el texto.
 - **Kits:** al elegir un kit, sus piezas se encienden una a una (70 ms entre piezas) y, si incluye elevación, el vehículo sube. Es movimiento que explica qué añade cada kit.
 - **Instalación:** el logo se revela con un recorte vertical; las líneas de los pasos se dibujan.
@@ -47,7 +47,7 @@ Neutros puros, sin tinte (negro y blanco de la marca) y un solo acento, el rojo 
 - Nota técnica: el recorte de revelado se aplica a la *imagen hija*, nunca al contenedor que observa el `IntersectionObserver` (un contenedor totalmente recortado nunca cuenta como visible).
 
 ## Asistente de preguntas
-Botón fijo abajo a la izquierda («¿Dudas? Pregunta»; en móvil, solo el icono de 52 px) que abre un panel **no modal**: la página sigue usable detrás. Registro `role="log"`, foco al abrir y al cerrar, Esc cierra. Respuestas cortas con botones de acción (ir a una sección, abrir WhatsApp, armar la lista). Texto siempre insertado con `textContent`. Se coloca abajo a la izquierda para no tapar el contenido principal ni los controles del visor.
+Botón fijo abajo a la izquierda («¿Dudas? Pregunta»; en móvil, solo el icono de 52 px) que abre un panel **no modal**: la página sigue usable detrás. Registro `role="log"`, foco al abrir y al cerrar, Esc cierra. Respuestas cortas con botones de acción (ir a una sección, abrir WhatsApp, armar la lista). Texto siempre insertado con `textContent`. **No aparece en el primer pantallazo**: ahí vive «Armar mi lista» y el botón la tapaba en portátiles; entra con un fundido en cuanto el visitante hace scroll (unos 300 px) y se queda mientras el panel esté abierto. Va abajo a la izquierda porque la insignia «Powered by Netlify» ocupa la esquina inferior derecha.
 
 ## Superficies del navegador
 Selección de texto roja, cursor (`caret-color`) rojo, barra de desplazamiento oscura, anillo de foco rojo con desplazamiento, cifras tabulares en contadores.

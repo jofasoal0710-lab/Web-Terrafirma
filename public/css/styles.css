@@ -437,6 +437,8 @@ html:not(.js) .builder, html:not(.js) .hero-bar .btn, html:not(.js) .hero-bar .h
 /* ---------- Asistente de preguntas ---------- */
 .assistant { position: fixed; left: max(1rem, env(safe-area-inset-left)); bottom: max(1rem, env(safe-area-inset-bottom)); z-index: 60; }
 html:not(.js) .assistant { display: none; }
+.assistant { transition: opacity 220ms var(--ease-out), transform 220ms var(--ease-out); }
+.assistant.away { opacity: 0; transform: translateY(8px); visibility: hidden; pointer-events: none; transition: opacity 160ms var(--ease-out), transform 160ms var(--ease-out), visibility 0s linear 160ms; }
 .as-launcher { display: inline-flex; align-items: center; gap: .6rem; min-height: 48px; padding: .6rem 1.1rem; background: var(--bg); color: var(--text); border: 1px solid var(--line-strong); border-radius: var(--r); font: 600 .95rem/1 var(--body); cursor: pointer; box-shadow: 0 12px 30px -12px rgb(0 0 0 / .9); transition: border-color var(--t-state) var(--ease-out), transform var(--t-press) var(--ease-out); }
 .as-launcher svg { width: 22px; height: 22px; fill: none; stroke: var(--red-text); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; flex: none; }
 .as-launcher:active { transform: scale(0.97); }

@@ -54,7 +54,7 @@
     { id: 'compat', q: '¿Sirve para mi vehículo?', keys: ['compatib', 'sirve', 'funciona con', 'mi carro', 'mi vehiculo', 'mi camioneta', 'mi pick', 'mi jeep', 'mi 4x4', 'hilux', 'land cruiser', 'jimny', 'defender', 'discovery', 'range rover', 'land rover', 'modelo'],
       a: () => ['Terrafirma es una marca especializada en Land Rover (Defender, Discovery y Range Rover), y también equipamos otros 4x4 y pick-ups.', 'La compatibilidad depende de la marca, el modelo y el año de tu vehículo. Indícalo en el formulario y lo confirmamos al cotizar.'],
       next: () => [go('Ir al formulario', '#contacto')] },
-    { id: 'productos', q: '¿Qué accesorios hay?', keys: ['accesorio', 'producto', 'categoria', 'que venden', 'que manejan', 'que tienen', 'catalogo', 'suspension', 'defensa', 'winch', 'snorkel', 'portaequipaje', 'iluminacion', 'neumatico', 'llanta', 'rin', 'freno', 'toldo', 'carpa', 'proteccion', 'rendimiento', 'recuperacion'],
+    { id: 'productos', q: '¿Qué accesorios hay?', keys: ['accesorio', 'producto', 'categoria', 'que venden', 'que manejan', 'que tienen', 'catalogo', 'suspension', 'defensa', 'winch', 'snorkel', 'portaequipaje', 'iluminacion', 'llanta', 'rin', 'freno', 'toldo', 'carpa', 'proteccion', 'rendimiento', 'recuperacion'],
       a: () => ['Puedes elegir entre estas categorías: suspensión, protección, defensas y recuperación, expedición, iluminación, rendimiento y ruedas.', 'La gama Terrafirma incluye además dirección, frenos, interior y exterior, carpas de techo y toldos: si buscas algo así, pregúntanos. La disponibilidad depende de tu vehículo y la confirmamos al cotizar.'],
       next: () => [go('Ver accesorios', '#accesorios'), startList()] },
     { id: 'contacto', q: '¿Cómo los contacto?', keys: ['contact', 'whatsapp', 'telefono', 'llamar', 'correo', 'email', 'escribir', 'instagram', 'redes', 'hablar con', 'persona', 'humano', 'numero'],
@@ -99,7 +99,6 @@
     soport: 'Sujetan la carga y los accesorios',
     led: 'Visibilidad a larga distancia de noche',
     trab: 'Luz para trabajar cuando oscurece',
-    at: 'Neumáticos con más agarre fuera del asfalto',
     'def-del': 'Protección frontal y soporte para un winch',
     'def-tra': 'Protección trasera y base para accesorios',
     winch: 'Para salir de atascos por tu cuenta',
@@ -111,20 +110,20 @@
   const ADVISOR = {
     uso: { q: '¿Cómo usas tu 4x4?', options: [
       ['diario', 'Diario y trocha ocasional', ['skid', 'rock', 'faros', 'amort']],
-      ['overland', 'Overland y viajes', ['elev', 'rack', 'led', 'at']],
+      ['overland', 'Overland y viajes', ['elev', 'rack', 'led']],
       ['trabajo', 'Trabajo y carga', ['amort', 'resor', 'rack', 'barras', 'def-tra', 'trab']],
-      ['extremo', 'Off-road exigente', ['def-del', 'winch', 'remol', 'recup', 'elev', 'skid', 'at']]] },
+      ['extremo', 'Off-road exigente', ['def-del', 'winch', 'remol', 'recup', 'elev', 'skid']]] },
     terreno: { q: '¿Qué terreno encuentras? Marca todo lo que aplique.', multi: true, options: [
-      ['barro', 'Barro y atascos', ['winch', 'remol', 'recup', 'at']],
+      ['barro', 'Barro y atascos', ['winch', 'remol', 'recup']],
       ['rios', 'Ríos y zonas con agua', ['snork', 'filtro']],
       ['piedras', 'Piedras y rocas', ['skid', 'rock', 'def-del']],
-      ['largos', 'Caminos largos de tierra', ['amort', 'at']]] },
+      ['largos', 'Caminos largos de tierra', ['amort']]] },
     carga: { q: '¿Llevas equipaje o carga en el techo?', options: [
       ['si', 'Sí, llevo carga', ['rack', 'soport']], ['no', 'No, casi no llevo', []]] },
     noche: { q: '¿Sales o viajas de noche?', options: [
       ['si', 'Sí, de noche también', ['led', 'faros']], ['no', 'No, casi siempre de día', []]] },
   };
-  const ORDER = ['elev', 'amort', 'resor', 'def-del', 'def-tra', 'skid', 'rock', 'winch', 'remol', 'recup', 'rack', 'barras', 'soport', 'snork', 'filtro', 'led', 'faros', 'trab', 'at'];
+  const ORDER = ['elev', 'amort', 'resor', 'def-del', 'def-tra', 'skid', 'rock', 'winch', 'remol', 'recup', 'rack', 'barras', 'soport', 'snork', 'filtro', 'led', 'faros', 'trab'];
   const recommend = (a) => {
     const set = new Set();
     const add = (ids) => ids.forEach((id) => set.add(id));
@@ -263,6 +262,19 @@
   });
 
   /* ------------------------------------------------------------------ *
+   * Visibilidad: no compite con el hero. El botón aparece al salir del primer pantallazo
+   * (donde vive «Armar mi lista») y se queda mientras el panel esté abierto.
+   * ------------------------------------------------------------------ */
+  let ticking = false;
+  const sync = () => {
+    ticking = false;
+    root.classList.toggle('away', window.scrollY < Math.min(window.innerHeight * 0.35, 300) && panel.hidden);
+  };
+  const requestSync = () => { if (!ticking) { ticking = true; requestAnimationFrame(sync); } };
+  window.addEventListener('scroll', requestSync, { passive: true });
+  window.addEventListener('resize', requestSync);
+
+  /* ------------------------------------------------------------------ *
    * Abrir y cerrar
    * ------------------------------------------------------------------ */
   function open() {
@@ -280,12 +292,13 @@
   function close(returnFocus = true) {
     panel.classList.remove('open');
     launcher.setAttribute('aria-expanded', 'false');
-    if (reduced.matches) panel.hidden = true; else timer = setTimeout(() => { panel.hidden = true; }, 200);
+    if (reduced.matches) { panel.hidden = true; sync(); } else timer = setTimeout(() => { panel.hidden = true; sync(); }, 200);
     if (returnFocus) launcher.focus({ preventScroll: true });
   }
   launcher.addEventListener('click', () => (panel.hidden || !panel.classList.contains('open') ? open() : close()));
   $('.as-close', panel).addEventListener('click', () => close());
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && panel.classList.contains('open')) close(); });
 
+  sync();
   root.hidden = false;
 })();

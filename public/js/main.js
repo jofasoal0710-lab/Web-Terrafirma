@@ -44,7 +44,6 @@
       { id: 'filtro', name: 'Filtro de aire de espuma' },
     ]},
     { cat: 'Ruedas', items: [
-      { id: 'at',     name: 'Neumáticos todo terreno' },
       { id: 'rines',  name: 'Rines de acero o aleación' },
     ]},
   ];
@@ -56,7 +55,7 @@
     { id: 'led',     label: 'Barra LED',      x: 472, y: 20 },
     { id: 'snork',   label: 'Snorkel',        x: 640, y: 20 },
     { id: 'elev',    label: 'Elevación',      x: 170, y: 392 },
-    { id: 'at',      label: 'Neumáticos',     x: 330, y: 392 },
+    { id: 'rines',   label: 'Rines',          x: 330, y: 392 },
     { id: 'rock',    label: 'Estribos',       x: 500, y: 392 },
     { id: 'def-del', label: 'Defensa',        x: 690, y: 392 },
     { id: 'winch',   label: 'Winch',          x: 850, y: 392 },
