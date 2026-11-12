@@ -25,6 +25,8 @@
   <link rel="preload" href="/fonts/barlow-condensed-700.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/barlow-400.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/css/styles.css">
+  <link rel="preload" href="/images/configurador/frente/suv/base.webp" as="image" type="image/webp" fetchpriority="high">
+  <link rel="preload" href="/images/configurador/fondo.webp" as="image" type="image/webp">
   <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
@@ -53,16 +55,21 @@
 
 <main id="contenido" tabindex="-1">
 
-  <!-- HERO: el esquema del 4x4 es la herramienta para armar la lista -->
+  <!-- HERO: el configurador es la herramienta para armar la lista (js/configurador.js, dentro de un Shadow DOM) -->
   <section id="inicio" class="hero">
     <div class="wrap">
       <div class="hero-head">
         <h1>Equipa tu 4x4.<br>Ve más lejos.</h1>
-        <p class="lead">Accesorios Terrafirma para Land Rover y otros 4x4 y pick-ups, instalados en Musmanni's Workshop. Toca las piezas del vehículo para armar tu lista y pide la cotización.</p>
+        <p class="lead">Accesorios Terrafirma para Land Rover y otros 4x4 y pick-ups, instalados en Musmanni's Workshop. Elige tu vehículo, añade piezas y mira cómo queda; luego pide la cotización.</p>
       </div>
+      <noscript><p class="noscript-note">Para armar tu lista necesitas activar JavaScript. También puedes <a href="#contacto">escribirnos directamente</a> desde el formulario.</p></noscript>
+    </div>
+    <div class="cfg" id="configurador"></div>
+  </section>
 
-      <div class="stage">
-        <svg class="rig" viewBox="0 0 1000 420" role="img" aria-label="Esquema de un 4x4 con los accesorios que puedes añadir a tu lista">
+  <!-- Esquema de líneas: se reutiliza en pequeño en el catálogo y en los kits (js/main.js) -->
+  <template id="rig-template">
+        <svg class="rig" viewBox="0 0 1000 420">
           <!-- suelo y líneas guía hacia cada pieza -->
           <path class="ground" d="M70 334H930"/>
           <g class="leaders" aria-hidden="true">
@@ -124,19 +131,7 @@
             <g class="part extra" data-part="repu"><rect x="112" y="100" width="38" height="62" rx="14"/></g>
           </g>
         </svg>
-        <!-- los botones sobre el esquema los genera js/main.js -->
-        <div class="hotspots" id="hotspots"></div>
-      </div>
-
-      <ul class="hero-chips" id="hero-chips" aria-label="Piezas del esquema"></ul>
-
-      <div class="hero-bar">
-        <a class="btn" href="#cotizador" id="hero-cta"><span id="hero-cta-label">Armar mi lista</span> <span class="count" id="hero-count"></span></a>
-        <p class="hint">Toca una pieza para añadirla. La cotización final depende de tu vehículo.</p>
-        <noscript><p class="noscript-note">Para armar tu lista necesitas activar JavaScript. También puedes <a href="#contacto">escribirnos directamente</a> desde el formulario.</p></noscript>
-      </div>
-    </div>
-  </section>
+  </template>
 
   <!-- ACCESORIOS -->
   <section id="accesorios" class="section">
@@ -391,6 +386,8 @@
 </footer>
 
 <script src="/js/main.js" defer></script>
+<script src="/js/configurador-data.js" defer></script>
+<script src="/js/configurador.js" defer></script>
 <script src="/js/assistant.js" defer></script>
 </body>
 </html>

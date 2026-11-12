@@ -1,7 +1,7 @@
 /* Terrafirma Costa Rica · interacciones del sitio
    La lista de accesorios (casillas de "Mi lista") es la única fuente de verdad:
-   el esquema del hero, los chips, el resumen y el formulario se derivan de ella.
-   Edita MODS (catálogo), HOTSPOTS (piezas del esquema) y PROJECTS (fotos reales). */
+   el configurador del hero (js/configurador.js), el resumen, el formulario y el asistente se derivan de ella.
+   Edita MODS (catálogo) y PROJECTS (fotos reales). */
 (() => {
   'use strict';
 
@@ -46,19 +46,6 @@
     { cat: 'Ruedas', items: [
       { id: 'rines',  name: 'Rines de acero o aleación' },
     ]},
-  ];
-
-  // Piezas tocables del esquema. `id` debe existir en MODS y coincidir con data-part / data-for del SVG.
-  // x e y están en las unidades del viewBox (1000 x 420) y colocan la etiqueta en pantallas anchas.
-  const HOTSPOTS = [
-    { id: 'rack',    label: 'Portaequipajes', x: 300, y: 20 },
-    { id: 'led',     label: 'Barra LED',      x: 472, y: 20 },
-    { id: 'snork',   label: 'Snorkel',        x: 640, y: 20 },
-    { id: 'elev',    label: 'Elevación',      x: 170, y: 392 },
-    { id: 'rines',   label: 'Rines',          x: 330, y: 392 },
-    { id: 'rock',    label: 'Estribos',       x: 500, y: 392 },
-    { id: 'def-del', label: 'Defensa',        x: 690, y: 392 },
-    { id: 'winch',   label: 'Winch',          x: 850, y: 392 },
   ];
 
   // Datos de contacto. Los campos vacíos no se muestran.
@@ -136,16 +123,10 @@
   const summaryText = (list) => list.map((m) => `- ${m.name} (${m.cat})`).join('\n');
 
   /* ------------------------------------------------------------------ *
-   * Hero: esquema tocable
+   * Esquema de líneas: vive en <template id="rig-template"> y se reutiliza (en pequeño) en el catálogo y en los kits
    * ------------------------------------------------------------------ */
-  const rig = $('.rig');
-  const hotspotsBox = $('#hotspots');
-  const heroChips = $('#hero-chips');
-  const heroCount = $('#hero-count');
-  const heroCta = $('#hero-cta');
-  const heroCtaLabel = $('#hero-cta-label');
+  const rig = $('#rig-template').content.querySelector('.rig');
   const status = $('#list-status');
-  const hsButtons = new Map();   // id -> [botón sobre el esquema, chip móvil]
 
   // Cada pieza del SVG puede responder a varios accesorios: data-part="rack barras soport"
   const hasAny = (node, ids) => node.dataset.part.split(' ').some((id) => ids.has(id));
@@ -153,37 +134,6 @@
     $$('[data-part]', svg).forEach((p) => p.classList.toggle('on', hasAny(p, ids)));
     $('.body-group', svg).classList.toggle('lifted', ids.has('elev'));
   };
-  const peek = (id, on) => {
-    $$(`[data-part~="${id}"], [data-for="${id}"]`, rig).forEach((n) => n.classList.toggle('peek', on));
-  };
-  const flip = (id) => {
-    const input = box(id);
-    if (!input) return;
-    input.checked = !input.checked;
-    renderAll();
-  };
-
-  HOTSPOTS.forEach((h, i) => {
-    const hs = el('button', { class: 'hs', type: 'button', 'aria-pressed': 'false', style: `--x:${h.x};--y:${h.y};--i:${i}` },
-      el('span', { text: h.label }));
-    const pick = el('button', { class: 'pick', type: 'button', 'aria-pressed': 'false' }, el('span', { text: h.label }));
-    [hs, pick].forEach((b) => {
-      b.addEventListener('click', () => flip(h.id));
-      b.addEventListener('pointerenter', () => peek(h.id, true));
-      b.addEventListener('pointerleave', () => peek(h.id, false));
-      b.addEventListener('focus', () => peek(h.id, true));
-      b.addEventListener('blur', () => peek(h.id, false));
-    });
-    hotspotsBox.append(hs);
-    heroChips.append(el('li', {}, pick));
-    hsButtons.set(h.id, [hs, pick]);
-  });
-
-  // En pantallas angostas se recorta el esquema a la silueta (sin la fila de etiquetas)
-  const wide = window.matchMedia('(min-width: 1000px)');
-  const setView = () => rig.setAttribute('viewBox', wide.matches ? '0 0 1000 420' : '110 36 780 320');
-  setView();
-  wide.addEventListener('change', setView);
 
   /* ------------------------------------------------------------------ *
    * Esquemas pequeños: el mismo dibujo, reutilizado en catálogo y kits
@@ -242,14 +192,6 @@
     });
   };
 
-  // Movimiento ambiental del hero: solo mientras se ve y si el usuario no pidió menos movimiento
-  if (hasIO) {
-    new IntersectionObserver(
-      ([e]) => rig.classList.toggle('ambient', e.isIntersecting && !reduced.matches),
-      { threshold: 0.2 },
-    ).observe($('.stage'));
-  }
-
   /* ------------------------------------------------------------------ *
    * Render único
    * ------------------------------------------------------------------ */
@@ -283,7 +225,7 @@
   let lastCount = 0;
   const plural = (n) => `${n} ${n === 1 ? 'accesorio' : 'accesorios'}`;
 
-  const renderAll = () => {
+  const renderAll = (silent = false) => {
     const list = selected();
     const ids = new Set(list.map((m) => m.id));
 
@@ -295,14 +237,6 @@
     clearBtn.hidden = list.length === 0;
     configField.value = summaryText(list);   // viaja siempre con el formulario
 
-    // hero
-    hsButtons.forEach((btns, id) => btns.forEach((b) => b.setAttribute('aria-pressed', String(ids.has(id)))));
-    applyParts(rig, ids);
-    $$('[data-for]', rig).forEach((l) => l.classList.toggle('on', ids.has(l.dataset.for)));
-    heroCount.textContent = list.length ? `(${list.length})` : '';
-    heroCtaLabel.textContent = list.length ? 'Ver mi lista' : 'Armar mi lista';
-    heroCta.setAttribute('aria-label', list.length ? `Ver mi lista, ${plural(list.length)}` : 'Armar mi lista de accesorios');
-
     // formulario: con una lista elegida el mensaje pasa a ser opcional
     message.required = list.length === 0;
     message.placeholder = list.length ? 'Opcional: cuéntanos algo más sobre tu 4x4. Ya incluimos tu lista.' : '¿Qué te gustaría instalar en tu 4x4?';
@@ -310,10 +244,11 @@
     save([...ids]);
     waLinks.forEach((a) => { a.href = waUrl(list); });
     if (ready && list.length !== lastCount) {
-      status.textContent = list.length ? `${plural(list.length)} en tu lista` : 'Tu lista está vacía';
-      [sumCount, heroCount].forEach((n) => { n.classList.remove('bump'); void n.offsetWidth; n.classList.add('bump'); });
+      if (!silent) status.textContent = list.length ? `${plural(list.length)} en tu lista` : 'Tu lista está vacía';   // el configurador da su propio aviso con el nombre de la pieza
+      sumCount.classList.remove('bump'); void sumCount.offsetWidth; sumCount.classList.add('bump');
     }
     lastCount = list.length;
+    document.dispatchEvent(new CustomEvent('tf:list'));   // avisa al configurador (y a quien escuche) de que la lista cambió
   };
 
   modsBox.addEventListener('change', renderAll);
@@ -334,11 +269,12 @@
       ? text.slice(0, start) + block + text.slice(end + MARK_END.length)
       : (text ? `${text}\n\n` : '') + block;
   };
-  sendBtn.addEventListener('click', () => {
-    writeSelectionToMessage();
+  const requestQuote = () => {
+    if (selected().length) writeSelectionToMessage();
     $('#contacto').scrollIntoView({ behavior: 'smooth' });
     setTimeout(() => $('input[name="nombre"]').focus({ preventScroll: true }), 500);
-  });
+  };
+  sendBtn.addEventListener('click', requestQuote);
 
   const form = $('form[name="contacto"]');
   const submitBtn = $('button[type="submit"]', form);
@@ -529,7 +465,13 @@
     waUrl: () => waUrl(selected()),
     name: (id) => (catalog.get(id) || {}).name || id,
     count: () => selected().length,
-    add: (ids) => { ids.forEach((id) => { const input = box(id); if (input) input.checked = true; }); renderAll(); return selected().length; },
+    add: (ids, silent) => { ids.forEach((id) => { const input = box(id); if (input) input.checked = true; }); renderAll(silent); return selected().length; },
+    // lo que usa el configurador del hero
+    mods: () => MODS,
+    ids: () => selected().map((m) => m.id),
+    toggle: (id, silent) => { const input = box(id); if (!input) return false; input.checked = !input.checked; renderAll(silent); return input.checked; },
+    clear: (silent) => { $$('input[name="mod"]', modsBox).forEach((i) => { i.checked = false; }); renderAll(silent); },
+    request: requestQuote,
     go: (sel) => { const t = $(sel); if (t) t.scrollIntoView({ behavior: 'smooth' }); },
     askTeam: (q) => {
       message.value = `${message.value ? `${message.value}\n\n` : ''}Pregunta: ${q}`;
@@ -537,4 +479,11 @@
       setTimeout(() => $('input[name="nombre"]').focus({ preventScroll: true }), 500);
     },
   };
+
+  // Si el configurador no llegó a cargar (script o estilos caídos) no dejamos un hueco vacío en el hero:
+  // la lista se sigue armando desde el catálogo y los kits.
+  window.addEventListener('load', () => setTimeout(() => {
+    const cfg = $('#configurador');
+    if (cfg && !cfg.classList.contains('ready')) cfg.hidden = true;
+  }, 4000));
 })();

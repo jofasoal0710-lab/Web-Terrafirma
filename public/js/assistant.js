@@ -37,7 +37,7 @@
   const INTENTS = [
     { id: 'cotizacion', q: '¿Cómo pido una cotización?',
       keys: ['cotiz', 'presupuesto', 'pedir', 'solicitar', 'como compro', 'comprar', 'adquirir', 'pedido'],
-      a: () => ['Arma tu lista de accesorios: toca las piezas del vehículo en el inicio, elige un kit o márcalos en «Mi lista». Luego pulsa «Solicitar cotización» y completa el formulario.',
+      a: () => ['Arma tu lista de accesorios: elige tu vehículo y añade piezas en el configurador del inicio, elige un kit o márcalas en «Mi lista». Luego pulsa «Solicitar cotización» y completa el formulario.',
         'La cotización final depende de tu vehículo, de la disponibilidad y de la instalación.'],
       next: () => [startList(), go('Ir al formulario', '#contacto')] },
     { id: 'asesor', q: '¿Qué kit me conviene?', keys: ['recomiend', 'conviene', 'que kit', 'cual kit', 'sugier', 'aconsej', 'que necesito', 'que instalar', 'que le pongo', 'ayudame a elegir', 'asesor'],
@@ -217,7 +217,7 @@
         const n = TF.add(ids);
         say('bot', `Listo: añadí ${ids.length} accesorios. Ahora tienes ${n} en tu lista.`);
         setActions([
-          { label: 'Ver el esquema', run: () => { TF.go('#inicio'); if (small.matches) close(false); } },
+          { label: 'Verlo en el configurador', run: () => { TF.go('#configurador'); if (small.matches) close(false); } },
           { label: 'Solicitar cotización', run: () => { document.getElementById('sum-send').click(); if (small.matches) close(false); } },
           { label: 'Otra pregunta', run: () => suggestions() }]);
       } },

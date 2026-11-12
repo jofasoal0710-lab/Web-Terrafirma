@@ -27,7 +27,6 @@
 
   --r: 3px;
   --wrap: 1180px;
-  --hero-chrome: 24.5rem; /* alto que ocupan cabecera, titular y barra del hero: el esquema usa el resto de la pantalla */
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --t-press: 140ms;
   --t-state: 220ms;
@@ -122,17 +121,15 @@ h3 { font-size: 1.5rem; letter-spacing: .01em; }
 /* ---------- Hero ---------- */
 .hero { padding: clamp(1.25rem, 2.5vw, 2rem) 0 clamp(2rem, 4vw, 3rem); }
 .hero-head { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.2rem 4rem; align-items: end; }
-.hero h1 { font-size: clamp(3.1rem, 6.6vw, 5.5rem); line-height: .96; }
+.hero h1 { font-size: clamp(2.75rem, 5.2vw, 4.5rem); line-height: .96; }
 .lead { color: var(--muted); font-size: clamp(1.05rem, 1.6vw, 1.2rem); max-width: 40ch; }
 
-.stage { position: relative; width: 100%; aspect-ratio: 780 / 320; margin-top: clamp(.5rem, 1.2vw, 1rem); }
 .rig {
   position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible;
   --ink: #e9e9e4; --ghost: #7a7a72; --hot: #ff4a3d;
   fill: none; stroke: var(--ink); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round;
 }
 .ground { stroke: var(--line-strong); stroke-width: 1.5; }
-.leaders { display: none; }
 .leaders line { stroke: var(--line-strong); stroke-width: 1; transition: stroke var(--t-state) var(--ease-out); }
 .leaders line.on, .leaders line.peek { stroke: var(--hot); }
 
@@ -163,34 +160,31 @@ h3 { font-size: 1.5rem; letter-spacing: .01em; }
 .body-group.lifted { transform: translateY(-14px); }
 
 /* Un solo momento animado: el esquema se dibuja al cargar */
-.js .body.draw { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 1100ms var(--ease-out) 80ms forwards; }
-.js .wheel, .js .glass, .js .seam, .js .lamp { animation: fade 600ms var(--ease-out) 420ms backwards; }
-@keyframes draw { to { stroke-dashoffset: 0; } }
-@keyframes fade { from { opacity: 0; } }
-@keyframes rise { from { opacity: 0; transform: translateY(6px); } }
 
-.hotspots { display: none; position: absolute; inset: 0; pointer-events: none; }
-.hs, .pick {
-  display: inline-flex; align-items: center; gap: .5rem; min-height: 36px; padding: .35rem .75rem;
+
+/* filtros de la galería de proyectos */
+.pick {
+  display: inline-flex; align-items: center; gap: .5rem; min-height: 44px; padding: .35rem .75rem;
   background: var(--bg); border: 1px solid var(--line-strong); border-radius: var(--r);
-  color: var(--text); font: 600 .9rem/1 var(--body); white-space: nowrap; cursor: pointer;
+  color: var(--text); font: 500 .9rem/1 var(--body); white-space: normal; text-align: left; cursor: pointer;
   transition: background-color var(--t-state) var(--ease-out), border-color var(--t-state) var(--ease-out), transform var(--t-press) var(--ease-out);
 }
-.hs::before, .pick::before {
+.pick::before {
   content: ""; flex: none; width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid var(--muted);
   transition: background-color var(--t-state) var(--ease-out), border-color var(--t-state) var(--ease-out);
 }
-.hs { position: absolute; left: calc(var(--x) * 0.1%); top: calc(var(--y) / 420 * 100%); translate: -50% -50%; pointer-events: auto; }
-.js .hs { animation: rise 500ms var(--ease-out) calc(700ms + var(--i) * 45ms) backwards; }
-.hs:active, .pick:active { transform: scale(0.97); }
-.hs[aria-pressed="true"], .pick[aria-pressed="true"] { background: var(--red); border-color: var(--red); color: var(--on-red); }
-.hs[aria-pressed="true"]::before, .pick[aria-pressed="true"]::before { background: var(--on-red); border-color: var(--on-red); }
-@media (hover: hover) and (pointer: fine) { .hs:hover:not([aria-pressed="true"]), .pick:hover:not([aria-pressed="true"]) { border-color: var(--red-text); } }
+.pick:active { transform: scale(0.97); }
+.pick[aria-pressed="true"] { background: var(--red); border-color: var(--red); color: var(--on-red); }
+.pick[aria-pressed="true"]::before { background: var(--on-red); border-color: var(--on-red); }
+@media (hover: hover) and (pointer: fine) { .pick:hover:not([aria-pressed="true"]) { border-color: var(--red-text); } }
 
-.hero-chips { list-style: none; display: flex; flex-wrap: wrap; gap: .5rem; padding: 0; margin: 1.25rem 0 0; }
-.pick { min-height: 44px; font-weight: 500; white-space: normal; text-align: left; }
+/* configurador del hero: el componente vive en un Shadow DOM (js/configurador.js); aquí solo su tamaño */
+.cfg { display: block; height: 780px; margin-top: clamp(1rem, 2vw, 1.5rem); background: var(--bg); border-block: 1px solid var(--line); visibility: hidden; }
+.cfg.ready { visibility: visible; }
+.cfg[hidden] { display: none; }
+html:not(.js) .cfg { display: none; }
+@media (min-width: 900px) { .cfg { height: clamp(720px, 88svh, 860px); } }   /* el escenario necesita ~400 px: el vehículo se dimensiona con su altura */
 
-.hero-bar { display: grid; gap: 1rem; align-items: center; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--line); }
 .hint { color: var(--muted); font-size: .95rem; max-width: 52ch; }
 
 /* ---------- Catálogo (lista editorial, sin tarjetas) ---------- */
@@ -301,14 +295,13 @@ h3 { font-size: 1.5rem; letter-spacing: .01em; }
 /* ---------- Sin JavaScript: se oculta lo que no puede funcionar y se ofrece el formulario ---------- */
 .noscript-note { margin: 0 0 1rem; padding: 1rem 1.2rem; border: 1px solid var(--line-strong); border-radius: var(--r); color: var(--muted); max-width: 62ch; }
 .noscript-note a { color: var(--text); }
-html:not(.js) .builder, html:not(.js) .hero-bar .btn, html:not(.js) .hero-bar .hint { display: none; }
+html:not(.js) .builder { display: none; }
 
 /* ---------- Responsive ---------- */
 @media (min-width: 640px) {
   .form .row { grid-template-columns: 1fr 1fr; }
   .mod-row { grid-template-columns: 200px 1fr; }
   .catalog > div { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); }
-  .hero-bar { grid-template-columns: auto 1fr; gap: 1.5rem 2rem; }
 }
 @media (min-width: 900px) {
   .hero-head { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); }
@@ -322,9 +315,6 @@ html:not(.js) .builder, html:not(.js) .hero-bar .btn, html:not(.js) .hero-bar .h
   .contact-grid { grid-template-columns: 1fr 1.2fr; gap: 4rem; align-items: start; }
 }
 @media (min-width: 1000px) {
-  .stage { aspect-ratio: 1000 / 420; width: min(100%, max(820px, calc((100svh - var(--hero-chrome)) * 1000 / 420))); margin-inline: auto; }
-  .leaders, .hotspots { display: block; }
-  .hero-chips { display: none; }
 }
 @media (max-width: 899px) {
   .rail-visual { display: none; }
@@ -338,7 +328,6 @@ html:not(.js) .builder, html:not(.js) .hero-bar .btn, html:not(.js) .hero-bar .h
 }
 @media (max-width: 539px) {
   .brand img { height: 44px; }
-  .hero-bar .btn { width: 100%; }
 }
 /* ---------- Piezas extra: solo se ven al elegirlas ---------- */
 .part.extra { opacity: 0; transition: color var(--t-state) var(--ease-out), opacity var(--t-state) var(--ease-out); }
@@ -356,11 +345,6 @@ html:not(.js) .builder, html:not(.js) .hero-bar .btn, html:not(.js) .hero-bar .h
 .catalog dt { transition: color var(--t-state) var(--ease-out); }
 .catalog > div.is-active dt { color: var(--red-text); }
 
-/* ---------- Movimiento ambiental del hero (solo mientras es visible) ---------- */
-.rig.ambient .ground { stroke-dasharray: 10 14; animation: crawl 3s linear infinite; }
-.rig.ambient .tread circle { transform-box: fill-box; transform-origin: center; animation: spin 45s linear infinite; }
-@keyframes crawl { to { stroke-dashoffset: -24; } }
-@keyframes spin { to { transform: rotate(360deg); } }
 
 /* ---------- Lenguaje de movimiento: las líneas se dibujan, luego entra el contenido ---------- */
 .reveal-ready [data-draw] { position: relative; border-top-color: transparent; }
@@ -487,7 +471,6 @@ html:not(.js) .assistant { display: none; }
   .reveal-ready .catalog > div:last-child { border-bottom-color: var(--line); }
   .reveal-ready [data-reveal] > img { clip-path: none; scale: 1; }
   .reveal-ready .install-logo[data-reveal] { background: #fff; }
-  .rig.ambient .ground, .rig.ambient .tread circle { animation: none; }
   .progress { display: none; }
   .as-panel { transform: none; }
 }

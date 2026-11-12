@@ -6,7 +6,7 @@ Es un sitio estático (HTML + CSS + JS, **sin dependencias ni paso de compilaci�
 
 **Incluye**
 
-- **Hero interactivo:** un esquema técnico del 4x4 donde cada accesorio se toca para añadirlo a la lista (en móvil, las mismas piezas aparecen como chips).
+- **Configurador en el hero:** el cliente elige vehículo (SUV, pick-up o compacto), color y vista (frente, lado, atrás), añade piezas a su lista y las ve puestas en el vehículo; luego pide la cotización. Hoy usa **vehículos y accesorios de prueba** (renders generados, rotulados como «Imagen provisional») hasta tener modelos o fotos reales; ver `tools/render/README.md`.
 - Catálogo por categorías, **kits sugeridos** por tipo de uso (se cargan en la misma lista) y sección de instalación en Musmanni's Workshop.
 - **Mi lista**: el cliente revisa lo que eligió y envía la lista con un clic al formulario.
 - Sección **Proyectos** con fotos reales (filtros por tipo de trabajo, visor con deslizamiento y botón para añadir a la lista los accesorios de cada foto): permanece oculta hasta que existan.
@@ -23,15 +23,20 @@ Es un sitio estático (HTML + CSS + JS, **sin dependencias ni paso de compilaci�
 ├── PRODUCT.md            # qué es el sitio, voz, hechos que no se inventan
 ├── DESIGN.md             # sistema de diseño, movimiento y decisiones
 ├── .claude/skills/       # skills de diseño (ver su README)
+├── tools/render/         # cómo se generaron las imágenes del configurador (Blender); no se despliega
 └── public/
     ├── index.html        # página principal
     ├── gracias.html      # tras enviar el formulario
     ├── 404.html
     ├── favicon.svg
     ├── css/styles.css    # paleta en las variables :root (rojo Terrafirma)
-    ├── js/main.js        # MODS (catálogo), HOTSPOTS (piezas del esquema) y PROJECTS (fotos)
+    ├── css/configurador.css       # estilos del configurador (viven en su Shadow DOM)
+    ├── js/main.js        # MODS (catálogo), PROJECTS (fotos) y la lista («Mi lista», window.TF)
+    ├── js/configurador.js         # configurador del hero: lee y escribe la lista a través de window.TF
+    ├── js/configurador-data.js    # datos de las vistas (generado por tools/render; no editar a mano)
     ├── js/assistant.js   # asistente de preguntas: INTENTS (respuestas), ADVISOR y WHY (recomendador)
     ├── images/           # logos de Terrafirma y Musmanni's Workshop
+    ├── images/configurador/       # renders de prueba: vista/vehículo/capas .webp (≈ 2,8 MB; se cargan bajo demanda)
     └── fonts/            # Barlow y Barlow Condensed (SIL OFL)
 ```
 
@@ -60,7 +65,9 @@ Con `whatsapp` (código de país y solo dígitos) aparecen los botones **Escribi
 | --- | --- |
 | Textos, categorías de accesorios, kits | `public/index.html` |
 | Catálogo de "Mi lista" | `MODS` en `public/js/main.js` |
-| Piezas tocables del esquema y su posición | `HOTSPOTS` en `public/js/main.js` y el `<svg class="rig">` de `public/index.html` (`data-part` debe coincidir con el `id` de `MODS`) |
+| Vehículos, colores, vistas y etiquetas del configurador | `VEHICLES`, `COLORS`, `VIEWS`, `PIN_NAME` y `PIN_SHORT` al inicio de `public/js/configurador.js` |
+| Imágenes del configurador (cambiarlas por modelos o fotos reales) | `public/images/configurador/` y `tools/render/README.md`; la posición de cada pieza está en `public/js/configurador-data.js` |
+| Esquema de líneas pequeño (catálogo y kits) | el `<svg class="rig">` dentro de `<template id="rig-template">` en `public/index.html` (`data-part` debe coincidir con el `id` de `MODS`) |
 | Fotos de proyectos | `PROJECTS` en `public/js/main.js` |
 | Preguntas y respuestas del asistente | `INTENTS` en `public/js/assistant.js` |
 | Recomendador del asistente (qué sugiere según las respuestas) | `ADVISOR` y `WHY` en `public/js/assistant.js` |

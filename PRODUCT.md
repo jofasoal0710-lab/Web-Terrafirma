@@ -5,7 +5,7 @@ Sitio web de **Terrafirma Costa Rica** (*Serious 4x4 Accessories*): accesorios p
 
 ## Superficie y modo
 - Una sola página pública (más `gracias` y `404`), modo **Persuade**: el visitante decide y actúa.
-- **La acción de la categoría:** pedir una cotización con la lista de lo que quiere instalar. Por eso el hero es la herramienta para armar esa lista, no una imagen.
+- **La acción de la categoría:** pedir una cotización con la lista de lo que quiere instalar. Por eso el hero es la herramienta para armar esa lista, no una imagen: un configurador donde se elige vehículo, color y vista, y se ven las piezas puestas.
 
 ## Visitantes
 Dueños de 4x4 y pick-ups en Costa Rica, con Land Rover (Defender, Discovery, Range Rover) destacado porque es la especialidad de la marca, que quieren equipar su vehículo para trocha, viajes (overland), trabajo o expedición. Suelen entrar desde el teléfono.
@@ -27,6 +27,8 @@ Español de Costa Rica, directo y concreto. Verbos simples, frases cortas, sin e
 - La gama del fabricante incluye además dirección, frenos, transmisión y diferenciales, interior, exterior, carpas de techo, toldos, cajas de almacenaje y mercancía. No tienen pieza en el esquema, por eso se mencionan en el texto del catálogo y el asistente remite a preguntar.
 - **Garantía:** solo se cita la que **publica el fabricante** en su FAQ (24 meses contra defectos de materiales y mano de obra, términos concretos según el distribuidor local), siempre atribuida a él y aclarando que los términos en Costa Rica los confirma el equipo.
 - La sección **Proyectos** permanece oculta hasta que existan fotos reales de instalaciones (`PROJECTS` en `public/js/main.js`).
+- **Imágenes del configurador provisionales:** los tres vehículos (SUV, pick-up y compacto), sus colores y las 20 vistas previas son renders de prueba hechos para este sitio, **no** representan ningún modelo, marca ni producto real de Terrafirma ni del fabricante, y el sitio los rotula como «Imagen provisional: vehículos y accesorios de prueba». Las vistas previas muestran dónde va cada pieza, no su aspecto real ni su compatibilidad con un modelo concreto. No presentarlas como fotos del producto; reemplazarlas cuando haya modelos o fotos reales y quitar el rótulo.
+- Los colores del configurador son una muestra para visualizar el vehículo; no implican ofrecer pintura ni que un color esté disponible.
 
 ## Asistente de preguntas (límites)
 - Contesta **solo con lo que ya dice el sitio**. Si no lo sabe, lo dice y ofrece enviar la pregunta al equipo (queda escrita en el formulario).
@@ -35,4 +37,4 @@ Español de Costa Rica, directo y concreto. Verbos simples, frases cortas, sin e
 - No es IA generativa ni usa servidor. Una versión con IA requeriría una función de Netlify, clave de API, límites de uso y revisión de privacidad.
 
 ## Pendiente de recibir
-Fotos reales de instalaciones y de producto (con vehículo y accesorios instalados para el catálogo); datos de contacto; catálogo real; datos de negocio para el asistente (términos de garantía en Costa Rica, tiempos, pagos); qué productos de la gama se ofrecen.
+Fotos reales de instalaciones y de producto (con vehículo y accesorios instalados para el catálogo); modelos 3D o fotos de los vehículos reales (Land Rover Defender, Discovery y Range Rover primero) para sustituir los de prueba del configurador; datos de contacto; catálogo real; datos de negocio para el asistente (términos de garantía en Costa Rica, tiempos, pagos); qué productos de la gama se ofrecen.
